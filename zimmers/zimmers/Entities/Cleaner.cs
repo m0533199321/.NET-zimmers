@@ -21,8 +21,7 @@ namespace zimmers.Entities
         public int Total_working_hours { get; set; }
         public Cleaner()
         {
-            Id = id;
-            id++;
+
         }
         public Cleaner(Cleaner c)
         {
@@ -38,18 +37,18 @@ namespace zimmers.Entities
             Total_salary = c.Total_salary;
             Total_working_hours = c.Total_working_hours;
         }
-        //public Cleaner(int id, int tz, string name, string address, int phone, string bank_account, DateTime date_registration, int total_for_an_hour_of_work, int total_salary, int total_working_hours)
-        //{
-        //    Id = id;
-        //    Tz = tz;
-        //    Name = name;
-        //    Address = address;
-        //    Phone = phone;
-        //    Bank_account = bank_account;
-        //    Date_registration = date_registration;
-        //    Total_for_an_hour_of_work = total_for_an_hour_of_work;
-        //    Total_salary = total_salary;
-        //    Total_working_hours = total_working_hours;
-        //}
+        public Cleaner(int id_from_body,Cleaner c)
+        {
+            Id = id_from_body;
+            Tz = c.Tz;
+            Name = c.Name;
+            Address = c.Address;
+            Phone = c.Phone;
+            Bank_account = c.Bank_account;
+            Date_registration = c.Date_registration;
+            Total_for_an_hour_of_work = c.Total_for_an_hour_of_work;
+            Total_salary = c.Total_salary;
+            Total_working_hours = c.Total_working_hours;
+        }
     }
 }

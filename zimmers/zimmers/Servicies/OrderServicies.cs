@@ -4,15 +4,9 @@ using zimmers.Entities;
 namespace zimmers.Servicies
 {
     public class OrderServicies
-    { 
-        static List<Order> dataOrders = new List<Order>()
     {
-        new Order{/*Id=5,*/User_id=5,Zimmer_id=5,
-            Starting_date=new DateTime(),
-            Num_of_nights=5,
-            Total_sum=5555}
-    };
-
+        static List<Order> dataOrders = new List<Order>();
+    
         public List<Order> Get()
         {
             return dataOrders;
@@ -23,7 +17,7 @@ namespace zimmers.Servicies
         }
         public ActionResult<bool> Post(Order order)
         {
-            dataOrders.Add(order);
+            dataOrders.Add(new Order(order));
             return true;
         }
         public ActionResult<bool> Put(int id, Order order)
@@ -32,7 +26,7 @@ namespace zimmers.Servicies
             {
                 if (id == dataOrders[i].Id)
                 {
-                    dataOrders[i] = new Order(order);
+                    dataOrders[i] = new Order(id,order);
                     return true;
                 }
             }
@@ -43,9 +37,5 @@ namespace zimmers.Servicies
             return dataOrders.Remove(dataOrders.FirstOrDefault(x => x.Id == id));
         }
 
-        //public OrderServicies()
-        //{
-        //    dataOrders = new List<Order>();
-        //}
     }
 }

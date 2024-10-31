@@ -5,16 +5,8 @@ namespace zimmers.Servicies
 {
     public class UserServicies
     {
-        //static List<User> dataUsers=new List<User>() { new User(1, 1, "a", "aaa", 11, "1a1a", new DateTime(), 111, 11, 1) };
-        static List<User> dataUsers = new List<User>()
-    {
-        new User{/*Id=1,*/Tz=1,Name="a",Address="aaa",
-            Phone=1111,Bank_account="1a",
-            Date_registration=new DateTime(),
-            Max_amount_per_night=11,Num_of_orders=1,
-            Num_of_persons=11}
-    };
 
+        static List<User> dataUsers = new List<User>();
         public List<User> Get()
         {
             return dataUsers;
@@ -25,7 +17,7 @@ namespace zimmers.Servicies
         }
         public ActionResult<bool> Post(User user)
         {
-            dataUsers.Add(user);
+            dataUsers.Add(new User(user));
             return true;
         }
         public ActionResult<bool> Put(int id, User user)
@@ -34,7 +26,7 @@ namespace zimmers.Servicies
             {
                 if (id == dataUsers[i].Id)
                 {
-                    dataUsers[i] = new User(user);
+                    dataUsers[i] = new User(id, user);
                     return true;
                 }
             }
@@ -44,10 +36,5 @@ namespace zimmers.Servicies
         {
             return dataUsers.Remove(dataUsers.FirstOrDefault(x => x.Id == id));
         }
-
-        //public UserServicies()
-        //{
-        //    dataUsers = new List<User>();
-        //}
     }
 }

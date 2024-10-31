@@ -5,13 +5,7 @@ namespace zimmers.Servicies
 {
     public class ZimmerServicies
     {
-        static List<Zimmer> dataZimmers = new List<Zimmer>()
-    {
-        new Zimmer{/*Id=3,*/Owner_id=3,Cleaner_id=3,Name="c",Address="ccc",
-            Num_of_rooms=3,Num_of_beds=33,
-            Yard_and_pool=true,
-            Total_per_night=3333,Num_of_nights_rented=3}
-    };
+        static List<Zimmer> dataZimmers = new List<Zimmer>();
 
         public List<Zimmer> Get()
         {
@@ -23,7 +17,7 @@ namespace zimmers.Servicies
         }
         public ActionResult<bool> Post(Zimmer zimmer)
         {
-            dataZimmers.Add(zimmer);
+            dataZimmers.Add(new Zimmer(zimmer));
             return true;
         }
         public ActionResult<bool> Put(int id, Zimmer zimmer)
@@ -32,7 +26,7 @@ namespace zimmers.Servicies
             {
                 if (id == dataZimmers[i].Id)
                 {
-                    dataZimmers[i] = new Zimmer(zimmer);
+                    dataZimmers[i] = new Zimmer(id,zimmer);
                     return true;
                 }
             }
@@ -43,9 +37,5 @@ namespace zimmers.Servicies
             return dataZimmers.Remove(dataZimmers.FirstOrDefault(x => x.Id == id));
         }
 
-        //public ZimmerServicies()
-        //{
-        //    dataZimmers = new List<Zimmer>();
-        //}
     }
 }

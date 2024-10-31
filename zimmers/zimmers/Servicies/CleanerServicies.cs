@@ -5,12 +5,7 @@ namespace zimmers.Servicies
 {
     public class CleanerServicies
     {
-        static List<Cleaner> dataCleaners = new List<Cleaner>() {
-                new Cleaner{/*Id=4,*/Tz=4,Name="d",Address="ddd",
-                Phone=4444,Bank_account="4d4d",
-                Date_registration=new DateTime(),
-                Total_for_an_hour_of_work=44,Total_salary=4444,
-                Total_working_hours=44} };
+        static List<Cleaner> dataCleaners = new List<Cleaner>();
 
         public List<Cleaner> Get()
         {
@@ -22,7 +17,7 @@ namespace zimmers.Servicies
         }
         public ActionResult<bool> Post(Cleaner cleaner)
         {
-            dataCleaners.Add(cleaner);
+            dataCleaners.Add(new Cleaner(cleaner));
             return true;
         }
         public ActionResult<bool> Put(int id, Cleaner cleaner)
@@ -31,7 +26,7 @@ namespace zimmers.Servicies
             {
                 if (id == dataCleaners[i].Id)
                 {
-                    dataCleaners[i] = new Cleaner(cleaner);
+                    dataCleaners[i] = new Cleaner(id, cleaner);
                     return true;
                 }
             }
@@ -42,9 +37,5 @@ namespace zimmers.Servicies
             return dataCleaners.Remove(dataCleaners.FirstOrDefault(x => x.Id == id));
         }
 
-        //public CleanerServicies()
-        //{
-        //    dataCleaners = new List<Cleaner>();
-        //}
     }
 }

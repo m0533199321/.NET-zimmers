@@ -5,10 +5,8 @@ namespace zimmers.Servicies
 {
     public class OwnerServicies
     {
-        static List<Owner> dataOwners = new List<Owner>() {
-             new Owner{/*Id=2,*/Tz=2,Name="b",Address="bbb",
-             Phone=2222,Bank_account="2a",
-             Date_registration=new DateTime() } };
+        static List<Owner> dataOwners = new List<Owner>();
+       
         public List<Owner> Get()
         {
             return dataOwners;
@@ -28,7 +26,7 @@ namespace zimmers.Servicies
         }
         public ActionResult<bool> Post(Owner owner)
         {
-            dataOwners.Add(owner);
+            dataOwners.Add(new Owner(owner));
             return true;
         }
         public ActionResult<bool> Put(int id, Owner owner)
@@ -37,7 +35,7 @@ namespace zimmers.Servicies
             {
                 if (id == dataOwners[i].Id)
                 {
-                    dataOwners[i] = new Owner(owner);
+                    dataOwners[i] = new Owner(id,owner);
                     return true;
                 }
             }
@@ -48,9 +46,5 @@ namespace zimmers.Servicies
             return dataOwners.Remove(dataOwners.FirstOrDefault(x => x.Id == id));
         }
 
-        //public OwnerServicies()
-        //{
-        //    dataOwners = new List<Owner>();
-        //}
     }
 }

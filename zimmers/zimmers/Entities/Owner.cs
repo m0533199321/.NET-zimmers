@@ -15,8 +15,7 @@
         
         public Owner()
         {
-            Id = id;
-            id++;
+            
         }
         public Owner(Owner o)
         {
@@ -29,15 +28,15 @@
             Bank_account = o.Bank_account;
             Date_registration = o.Date_registration;
         }
-        //public Owner(int id, int tz, string name, string address, int phone, string bank_account, DateTime date_registration)
-        //{
-        //    Id = id;
-        //    Tz = tz;
-        //    Name = name;
-        //    Address = address;
-        //    Phone = phone;
-        //    Bank_account = bank_account;
-        //    Date_registration = date_registration;
-        //}
+        public Owner(int id_from_body,Owner o)
+        {
+            Id = id_from_body; 
+            Tz = o.Tz;
+            Name = o.Name;
+            Address = o.Address;
+            Phone = o.Phone;
+            Bank_account = o.Bank_account;
+            Date_registration = o.Date_registration;
+        }
     }
 }
