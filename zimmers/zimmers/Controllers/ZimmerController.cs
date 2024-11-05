@@ -10,33 +10,36 @@ namespace zimmers.Controllers
     [ApiController]
     public class ZimmerController : ControllerBase
     {
-        ZimmerServicies service=new ZimmerServicies();
+        ZimmerServicies service = new ZimmerServicies();
         // GET: api/<ZimmerController>
         [HttpGet]
-        public IEnumerable<Zimmer> Get()
+        public ActionResult<IEnumerable<Zimmer>> Get()
         {
             return service.Get();
         }
 
         // GET api/<ZimmerController>/5
         [HttpGet("{id}")]
-        public Zimmer Get(int id)
+        public ActionResult<Zimmer> Get(int id)
         {
-            return service.GetById(id);
+            Zimmer z = service.GetById(id);
+            if (z==null)
+                return NotFound();
+            return z;
         }
 
         // POST api/<ZimmerController>
         [HttpPost]
         public ActionResult<bool> Post([FromBody] Zimmer zimmer)
         {
-            return service.Post(zimmer);
+            return service.Add(zimmer);
         }
 
         // PUT api/<ZimmerController>/5
         [HttpPut("{id}")]
         public ActionResult<bool> Put(int id, [FromBody] Zimmer zimmer)
         {
-            return service.Put(id, zimmer);
+            return service.Update(id, zimmer);
         }
 
         // DELETE api/<ZimmerController>/5

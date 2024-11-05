@@ -5,36 +5,32 @@ namespace zimmers.Servicies
 {
     public class OrderServicies
     {
-        static List<Order> dataOrders = new List<Order>();
-    
         public List<Order> Get()
         {
-            return dataOrders;
+            return DataManager.dataContext.dataOrders;
         }
         public Order GetById(int id)
         {
-            return dataOrders.FirstOrDefault(x => x.Id == id);
+            return DataManager.dataContext.dataOrders.FirstOrDefault(x => x.Id == id);
         }
-        public ActionResult<bool> Post(Order order)
+        public bool Add(Order order)
         {
-            dataOrders.Add(new Order(order));
+            DataManager.dataContext.dataOrders.Add(new Order(order));
             return true;
         }
-        public ActionResult<bool> Put(int id, Order order)
+        public bool Update(int id, Order order)
         {
-            for (int i = 0; i < dataOrders.Count; i++)
+            int index = DataManager.dataContext.dataOrders.FindIndex(x => x.Id == id);
+            if (index != -1) 
             {
-                if (id == dataOrders[i].Id)
-                {
-                    dataOrders[i] = new Order(id,order);
-                    return true;
-                }
+                DataManager.dataContext.dataOrders[index] = new Order(id, order);
+                return true;
             }
             return false;
         }
-        public ActionResult<bool> Delete(int id)
+        public bool Delete(int id)
         {
-            return dataOrders.Remove(dataOrders.FirstOrDefault(x => x.Id == id));
+            return DataManager.dataContext.dataOrders.Remove(DataManager.dataContext.dataOrders.FirstOrDefault(x => x.Id == id));
         }
 
     }

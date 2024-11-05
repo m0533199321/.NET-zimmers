@@ -13,30 +13,33 @@ namespace zimmers.Controllers
         CleanerServicies service=new CleanerServicies();
         // GET: api/<CleanerController>
         [HttpGet]
-        public IEnumerable<Cleaner> Get()
+        public ActionResult<IEnumerable<Cleaner>> Get()
         {
             return service.Get();
         }
 
         // GET api/<CleanerController>/5
         [HttpGet("{id}")]
-        public Cleaner Get(int id)
+        public ActionResult<Cleaner> Get(int id)
         {
-            return service.GetById(id);
+            Cleaner c = service.GetById(id);
+            if (c==null)
+                return NotFound();
+            return c;
         }
 
         // POST api/<CleanerController>
         [HttpPost]
         public ActionResult<bool> Post([FromBody] Cleaner cleaner)
         {
-            return service.Post(cleaner);
+            return service.Add(cleaner);
         }
 
         // PUT api/<CleanerController>/5
         [HttpPut("{id}")]
         public ActionResult<bool> Put(int id, [FromBody] Cleaner cleaner)
         {
-            return service.Put(id, cleaner);
+            return service.Update(id, cleaner);
         }
 
         // DELETE api/<CleanerController>/5

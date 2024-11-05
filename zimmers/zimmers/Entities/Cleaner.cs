@@ -8,7 +8,7 @@ namespace zimmers.Entities
     {
         static int id = 1;
         public int Id { get; private set; }
-        public int Tz { get; set; }
+        public string Tz { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public int Phone { get; set; }

@@ -15,24 +15,22 @@ namespace zimmers.Servicies
         {
             return dataZimmers.FirstOrDefault(x => x.Id == id);
         }
-        public ActionResult<bool> Post(Zimmer zimmer)
+        public bool Add(Zimmer zimmer)
         {
             dataZimmers.Add(new Zimmer(zimmer));
             return true;
         }
-        public ActionResult<bool> Put(int id, Zimmer zimmer)
+        public bool Update(int id, Zimmer zimmer)
         {
-            for (int i = 0; i < dataZimmers.Count; i++)
+            int index = DataManager.dataContext.dataZimmers.FindIndex(x => x.Id == id);
+            if (index != -1)
             {
-                if (id == dataZimmers[i].Id)
-                {
-                    dataZimmers[i] = new Zimmer(id,zimmer);
-                    return true;
-                }
+                dataZimmers[index] = new Zimmer(id, zimmer);
+                return true;
             }
             return false;
         }
-        public ActionResult<bool> Delete(int id)
+        public bool Delete(int id)
         {
             return dataZimmers.Remove(dataZimmers.FirstOrDefault(x => x.Id == id));
         }

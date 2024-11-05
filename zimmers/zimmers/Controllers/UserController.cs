@@ -10,33 +10,36 @@ namespace zimmers.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        UserServicies service=new UserServicies();
+        UserServicies service = new UserServicies();
         // GET: api/<Users>
         [HttpGet]
-        public IEnumerable<User> Get()
+        public ActionResult<IEnumerable<User>> Get()
         {
             return service.Get();
         }
 
         // GET api/<Users>/5
         [HttpGet("{id}")]
-        public User Get(int id)
+        public ActionResult<User> Get(int id)
         {
-            return service.GetById(id);
+            User u = service.GetById(id);
+            if (u == null) 
+                return NotFound();
+            return u;
         }
 
         // POST api/<Users>
         [HttpPost]
         public ActionResult<bool> Post([FromBody] User user)
         {
-            return service.Post(user);
+            return service.Add(user);
         }
 
         // PUT api/<Users>/5
         [HttpPut("{id}")]
-        public ActionResult<bool> Put(int id,[FromBody] User user)
+        public ActionResult<bool> Put(int id, [FromBody] User user)
         {
-            return service.Put(id,user);
+            return service.Update(id, user);
         }
 
         // DELETE api/<Users>/5

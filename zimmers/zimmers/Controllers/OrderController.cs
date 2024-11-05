@@ -13,30 +13,33 @@ namespace zimmers.Controllers
         OrderServicies service=new OrderServicies();
         // GET: api/<OrderController>
         [HttpGet]
-        public IEnumerable<Order> Get()
+        public ActionResult<IEnumerable<Order>> Get()
         {
             return service.Get();
         }
 
         // GET api/<OrderController>/5
         [HttpGet("{id}")]
-        public Order Get(int id)
+        public ActionResult<Order> Get(int id)
         {
-            return service.GetById(id);
+            Order o= service.GetById(id);
+            if (o==null)
+                return NotFound();
+            return o;
         }
 
         // POST api/<OrderController>
         [HttpPost]
         public ActionResult<bool> Post([FromBody] Order order)
         {
-            return service.Post(order);
+            return service.Add(order);
         }
 
         // PUT api/<OrderController>/5
         [HttpPut("{id}")]
         public ActionResult<bool> Put(int id, [FromBody] Order order)
         {
-            return service.Put(id, order);
+            return service.Update(id, order);
         }
 
         // DELETE api/<OrderController>/5

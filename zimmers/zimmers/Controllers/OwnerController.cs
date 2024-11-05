@@ -13,30 +13,33 @@ namespace zimmers.Controllers
         OwnerServicies service = new OwnerServicies();
         // GET: api/<OwnerController>
         [HttpGet]
-        public IEnumerable<Owner> Get()
+        public ActionResult<IEnumerable<Owner>> Get()
         {
             return service.Get();
         }
 
         // GET api/<OwnerController>/5
         [HttpGet("{id}")]
-        public Owner Get(int id)
+        public ActionResult<Owner> Get(int id)
         {
-            return service.GetById(id);
+            Owner o = service.GetById(id);
+            if (o == null) 
+                return NotFound();
+            return o;
         }
 
         // POST api/<OwnerController>
         [HttpPost]
         public ActionResult<bool> Post([FromBody] Owner owner)
         {
-            return service.Post(owner);
+            return service.Add(owner);
         }
 
         // PUT api/<OwnerController>/5
         [HttpPut("{id}")]
         public ActionResult<bool> Put(int id, [FromBody] Owner owner)
         {
-            return service.Put(id, owner);
+            return service.Update(id, owner);
         }
 
         // DELETE api/<OwnerController>/5
