@@ -5,15 +5,18 @@ namespace zimmers.Servicies
 {
     public class UserServicies
     {
-
-        static List<User> dataUsers = new List<User>();
         public List<User> Get()
         {
-            return dataUsers;
+            DateTime dateTime = DateTime.Now;
+            User u = new User("123", "as", "l", "1", "q", dateTime, 12, 1, 12);
+            List<User> lu = new List<User>();
+            lu.Add(u);
+            return lu;
+            //return DataManager.dataContext.dataUsers;
         }
         public User GetById(int id)
         {
-            return dataUsers.FirstOrDefault(x => x.Id == id);
+            return DataManager.dataContext.dataUsers.FirstOrDefault(x => x.Id == id);
         }
         public bool IsValidTz(string tz)
         {
@@ -22,7 +25,7 @@ namespace zimmers.Servicies
             int sum = 0, i = 0, plus;
             while (i < tz.Length - 1)
             {
-                if (tz[i]<'0' || tz[i]>'9')
+                if (tz[i] < '0' || tz[i] > '9')
                     return false;
                 plus = tz[i] - '0';
                 if (i % 2 == 1)
@@ -30,9 +33,10 @@ namespace zimmers.Servicies
                 if (plus > 9)
                     plus = plus / 10 + plus % 10;
                 sum += plus;
+                i++;
             }
             sum %= 10;
-            if (10 - sum == tz[tz.Length - 1]-'0')
+            if (10 - sum == tz[tz.Length - 1] - '0')
                 return true;
             return false;
         }
@@ -40,7 +44,7 @@ namespace zimmers.Servicies
         {
             if (IsValidTz(user.Tz))
             {
-                dataUsers.Add(new User(user));
+                DataManager.dataContext.dataUsers.Add(new User(user));
                 return true;
             }
             return false;
@@ -48,16 +52,16 @@ namespace zimmers.Servicies
         public bool Update(int id, User user)
         {
             int index = DataManager.dataContext.dataUsers.FindIndex(x => x.Id == id);
-                if (index!=-1 && IsValidTz(user.Tz))
-                {
-                    dataUsers[index] = new User(id, user);
-                    return true;
-                }
+            if (index != -1 && IsValidTz(user.Tz))
+            {
+                DataManager.dataContext.dataUsers[index] = new User(id, user);
+                return true;
+            }
             return false;
         }
         public bool Delete(int id)
         {
-            return dataUsers.Remove(dataUsers.FirstOrDefault(x => x.Id == id));
+            return DataManager.dataContext.dataUsers.Remove(DataManager.dataContext.dataUsers.FirstOrDefault(x => x.Id == id));
         }
     }
 }

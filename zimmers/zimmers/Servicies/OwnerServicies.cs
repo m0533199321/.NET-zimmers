@@ -28,6 +28,7 @@ namespace zimmers.Servicies
                 if (plus > 9)
                     plus = plus / 10 + plus % 10;
                 sum += plus;
+                i++;
             }
             sum %= 10;
             if (10 - sum == tz[tz.Length - 1]-'0')

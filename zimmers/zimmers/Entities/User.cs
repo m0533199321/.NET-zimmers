@@ -7,7 +7,7 @@
         public string Tz { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public string Bank_account { get; set; }
         //public DateOnly Date_registration { get; set; }
 
@@ -45,6 +45,22 @@
             this.Max_amount_per_night = u.Max_amount_per_night;
             this.Num_of_persons = u.Num_of_persons;
             this.Num_of_orders = u.Num_of_orders;
+        }
+        public User(string tz, string name, string address, string phone,
+            string bank_account, DateTime date_registration, int max_amount_per_night,
+            int num_of_persons, int num_of_orders)
+        {
+            Id = id;
+            id++;
+            this.Tz = tz;
+            this.Name = name;
+            this.Address = address;
+            this.Phone = phone;
+            this.Bank_account = bank_account;
+            this.Date_registration = date_registration;
+            this.Max_amount_per_night = max_amount_per_night;
+            this.Num_of_persons = num_of_persons;
+            this.Num_of_orders = num_of_orders;
         }
     }
 }
