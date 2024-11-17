@@ -2,7 +2,7 @@
 {
     public class User
     {
-        static int id = 1;
+        public static int id = 1;
         public int Id { get; private set; }
         public string Tz { get; set; }
         public string Name { get; set; }
@@ -17,7 +17,7 @@
         public int Num_of_orders { get; set; }
         public User()
         {
-            
+            Id = id++;
         }
         public User(User u)
         {

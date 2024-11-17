@@ -1,4 +1,11 @@
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using zimmers;
+using zimmers.Servicies;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<UserServicies>();
+builder.Services.AddScoped<IDataContext, JSONUsers>();
 
 // Add services to the container.
 

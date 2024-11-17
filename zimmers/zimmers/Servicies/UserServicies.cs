@@ -5,18 +5,25 @@ namespace zimmers.Servicies
 {
     public class UserServicies
     {
+        private readonly IDataContext _iData;
+        public UserServicies(IDataContext iData) 
+        {
+            _iData=iData;
+        }
         public List<User> Get()
         {
-            DateTime dateTime = DateTime.Now;
-            User u = new User("123", "as", "l", "1", "q", dateTime, 12, 1, 12);
-            List<User> lu = new List<User>();
-            lu.Add(u);
-            return lu;
-            //return DataManager.dataContext.dataUsers;
+            User.id = 1;
+            _iData.Load();
+            //DateTime dateTime = DateTime.Now;
+            //User u = new User("000000026", "as", "l", "1", "q", dateTime, 12, 1, 12);
+            //_iData.jsonUsers.Add(u);
+            return _iData.jsonUsers;
         }
         public User GetById(int id)
         {
-            return DataManager.dataContext.dataUsers.FirstOrDefault(x => x.Id == id);
+            User.id = 1;
+            _iData.Load();
+            return _iData.jsonUsers.FirstOrDefault(x => x.Id == id);
         }
         public bool IsValidTz(string tz)
         {
@@ -44,24 +51,37 @@ namespace zimmers.Servicies
         {
             if (IsValidTz(user.Tz))
             {
-                DataManager.dataContext.dataUsers.Add(new User(user));
-                return true;
+                User.id = 1;
+                _iData.Load();
+                _iData.jsonUsers.Add(new User(user));
+                return _iData.Save();
             }
             return false;
         }
         public bool Update(int id, User user)
         {
-            int index = DataManager.dataContext.dataUsers.FindIndex(x => x.Id == id);
+            User.id = 1;
+            _iData.Load();
+            //DateTime dateTime = DateTime.Now;
+            //User u = new User("000000026", "asd", "k", "098", "kj", dateTime, 890, 8, 9);
+            //_iData.jsonUsers.Add(u);
+            int index = _iData.jsonUsers.FindIndex(x => x.Id == id);
             if (index != -1 && IsValidTz(user.Tz))
             {
-                DataManager.dataContext.dataUsers[index] = new User(id, user);
-                return true;
+                _iData.jsonUsers[index] = new User(id, user);
+                return _iData.Save();
             }
             return false;
         }
         public bool Delete(int id)
         {
-            return DataManager.dataContext.dataUsers.Remove(DataManager.dataContext.dataUsers.FirstOrDefault(x => x.Id == id));
+            User.id = 1;
+            _iData.Load();
+            if(_iData.jsonUsers.Remove(_iData.jsonUsers.FirstOrDefault(x => x.Id == id)))
+            {
+                return _iData.Save();
+            }
+            return false;
         }
     }
 }

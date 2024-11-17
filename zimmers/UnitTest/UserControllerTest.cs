@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using zimmers;
 using zimmers.Controllers;
 using zimmers.Entities;
 
@@ -38,10 +39,11 @@ namespace UnitTest
         [Fact]
         public void Put()
         {
-            var id = 5;
-            User obj = new User("327868998", "as", "l", "1", "q", new DateTime(), 12, 1, 12);
+            var id = 1;
+            DateTime dateTime = DateTime.Now;
+            User u = new User("000000026", "as", "l", "1", "q", dateTime, 12, 1, 12);
             var controller = new UserController();
-            bool result = controller.Put(id,obj).Value;
+            bool result = controller.Put(id,u).Value;
             Assert.False(result);
         }
     }
