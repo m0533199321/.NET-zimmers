@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.9.34902.65
+VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "zimmers", "zimmers\zimmers.csproj", "{2B3228AB-CB0B-4A9C-A1E7-D9586EE5AC9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zimmers.API", "zimmers.API\zimmers.API.csproj", "{4FB4DB2B-FE47-4217-A39A-1E55836B762C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{1E538DF4-D5D0-4A7A-A389-6CB607082922}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zimmers.core", "zimmers.core\zimmers.core.csproj", "{82F9C03B-999E-4093-81C6-2A79F3EEF2D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zimmers.data", "zimmers.data\zimmers.data.csproj", "{DBB09CFF-051E-425A-925C-05590B658455}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zimmers.service", "zimmers.service\zimmers.service.csproj", "{65C925A6-3F6C-491A-B49B-95E473A6E46D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,19 +17,27 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2B3228AB-CB0B-4A9C-A1E7-D9586EE5AC9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B3228AB-CB0B-4A9C-A1E7-D9586EE5AC9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B3228AB-CB0B-4A9C-A1E7-D9586EE5AC9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B3228AB-CB0B-4A9C-A1E7-D9586EE5AC9C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E538DF4-D5D0-4A7A-A389-6CB607082922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E538DF4-D5D0-4A7A-A389-6CB607082922}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E538DF4-D5D0-4A7A-A389-6CB607082922}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E538DF4-D5D0-4A7A-A389-6CB607082922}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FB4DB2B-FE47-4217-A39A-1E55836B762C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FB4DB2B-FE47-4217-A39A-1E55836B762C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FB4DB2B-FE47-4217-A39A-1E55836B762C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FB4DB2B-FE47-4217-A39A-1E55836B762C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82F9C03B-999E-4093-81C6-2A79F3EEF2D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82F9C03B-999E-4093-81C6-2A79F3EEF2D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82F9C03B-999E-4093-81C6-2A79F3EEF2D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82F9C03B-999E-4093-81C6-2A79F3EEF2D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBB09CFF-051E-425A-925C-05590B658455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBB09CFF-051E-425A-925C-05590B658455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBB09CFF-051E-425A-925C-05590B658455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBB09CFF-051E-425A-925C-05590B658455}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65C925A6-3F6C-491A-B49B-95E473A6E46D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65C925A6-3F6C-491A-B49B-95E473A6E46D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65C925A6-3F6C-491A-B49B-95E473A6E46D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65C925A6-3F6C-491A-B49B-95E473A6E46D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FC45DF94-B649-437A-9CE8-5FF73D677B57}
+		SolutionGuid = {947D0A3F-94E4-4752-9520-E208DA7BCE90}
 	EndGlobalSection
 EndGlobal
