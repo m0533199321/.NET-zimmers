@@ -10,8 +10,8 @@ namespace zimmers.API.Controllers
     [ApiController]
     public class OwnerController : ControllerBase
     {
-        readonly IService<Owner> _iService;
-        public OwnerController(IService<Owner> iService)
+        readonly IOwnerService _iService;
+        public OwnerController(IOwnerService iService)
         {
             _iService = iService;
         }
@@ -34,16 +34,22 @@ namespace zimmers.API.Controllers
 
         // POST api/<OwnerController>
         [HttpPost]
-        public ActionResult<bool> Post([FromBody] Owner owner)
+        public ActionResult<Owner> Post([FromBody] Owner owner)
         {
-            return _iService.Add(owner);
+            Owner o = _iService.Add(owner);
+            if (o == null)
+                return NotFound();
+            return o;
         }
 
         // PUT api/<OwnerController>/5
         [HttpPut("{id}")]
-        public ActionResult<bool> Put(int id, [FromBody] Owner owner)
+        public ActionResult<Owner> Put(int id, [FromBody] Owner owner)
         {
-            return _iService.Update(id, owner);
+            Owner o = _iService.Update(id, owner);
+            if (o == null)
+                return NotFound();
+            return o;
         }
 
         // DELETE api/<OwnerController>/5

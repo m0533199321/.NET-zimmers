@@ -8,7 +8,7 @@ using zimmers.core.Interfaces;
 
 namespace zimmers.service.Services
 {
-    public class ZimmerService:IService<Zimmer>
+    public class ZimmerService: IZimmerService
     {
         readonly IRepository<Zimmer> _iRepository;
         public ZimmerService(IRepository<Zimmer> iRepository)
@@ -19,15 +19,15 @@ namespace zimmers.service.Services
         {
             return _iRepository.Get();
         }
-        public Zimmer GetById(int id)
+        public Zimmer? GetById(int id)
         {
             return _iRepository.GetById(id);
         }
-        public bool Add(Zimmer zimmer)
+        public Zimmer Add(Zimmer zimmer)
         {
             return _iRepository.Add(zimmer);
         }
-        public bool Update(int id, Zimmer zimmer)
+        public Zimmer Update(int id, Zimmer zimmer)
         {
             return _iRepository.Update(id, zimmer);
         }

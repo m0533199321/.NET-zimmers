@@ -10,8 +10,8 @@ namespace zimmers.API.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        readonly IService<Order> _iService;
-        public OrderController(IService<Order> iService)
+        readonly IOrderService _iService;
+        public OrderController(IOrderService iService)
         {
             _iService = iService;
         }
@@ -34,16 +34,22 @@ namespace zimmers.API.Controllers
 
         // POST api/<OrderController>
         [HttpPost]
-        public ActionResult<bool> Post([FromBody] Order order)
+        public ActionResult<Order> Post([FromBody] Order order)
         {
-            return _iService.Add(order);
+            Order o = _iService.Add(order);
+            if (o == null)
+                return NotFound();
+            return o;
         }
 
         // PUT api/<OrderController>/5
         [HttpPut("{id}")]
-        public ActionResult<bool> Put(int id, [FromBody] Order order)
+        public ActionResult<Order> Put(int id, [FromBody] Order order)
         {
-            return _iService.Update(id, order);
+            Order o = _iService.Update(id, order);
+            if (o == null)
+                return NotFound();
+            return o;
         }
 
         // DELETE api/<OrderController>/5

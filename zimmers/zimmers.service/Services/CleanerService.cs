@@ -8,7 +8,7 @@ using zimmers.core.Interfaces;
 
 namespace zimmers.service.Services
 {
-    public class CleanerService:IService<Cleaner>
+    public class CleanerService:ICleanerService
     {
         readonly IRepository<Cleaner> _iRepository;
         public CleanerService(IRepository<Cleaner> iRepository)
@@ -19,7 +19,7 @@ namespace zimmers.service.Services
         {
             return _iRepository.Get();
         }
-        public Cleaner GetById(int id)
+        public Cleaner? GetById(int id)
         {
             return _iRepository.GetById(id);
         }
@@ -45,22 +45,22 @@ namespace zimmers.service.Services
                 return true;
             return false;
         }
-        public bool Add(Cleaner cleaner)
+        public Cleaner Add(Cleaner cleaner)
         {
             if (IsValidTz(cleaner.Tz))
             {
                 return _iRepository.Add(cleaner);
             }
-            return false;
+            return null;
         }
-        public bool Update(int id, Cleaner cleaner)
+        public Cleaner Update(int id, Cleaner cleaner)
         {
 
             if (IsValidTz(cleaner.Tz))
             {
                 return _iRepository.Update(id, cleaner);
             }
-            return false;
+            return null;
         }
         public bool Delete(int id)
         {

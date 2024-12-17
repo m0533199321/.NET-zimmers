@@ -1,48 +1,22 @@
-﻿using System.Text.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using zimmers.core.Entities;
 
 namespace zimmers.data
 {
-    public class DataContext
+    public class DataContext:DbContext
     {
-        public List<Cleaner> cleaners;
-        public List<Order> orders;
-        public List<Owner> owners;
-        public List<User> users;
-        public List<Zimmer> zimmers;
+        public DbSet<Cleaner> cleaners { get; set; }
+        public DbSet<Order> orders { get; set; }
+        public DbSet<Owner> owners { get; set; }
+        public DbSet<User> users { get; set; }
+        public DbSet<Zimmer> zimmer { get; set; }
 
-        public DataContext()
+        public DataContext(DbContextOptions<DataContext> option):base(option)
+        {     }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            cleaners = Load<Cleaner>("cleaner.json");
-            orders = Load<Order>("order.json");
-            owners = Load<Owner>("owner.json");
-            users = Load<User>("user.json");
-            zimmers = Load<Zimmer>("zimmer.json");
+            base.OnConfiguring(optionsBuilder);
         }
-        private List<T> Load<T>(string pathJson)
-        {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", pathJson);
-            string jsonString = File.ReadAllText(path);
-            return JsonSerializer.Deserialize<List<T>>(jsonString);
-        }
-        public bool Save<T>(List<T> lst, string pathJson)
-        {
-            try
-            {
-                string path = Path.Combine(AppContext.BaseDirectory, "Data", pathJson);
-                string jsonString = JsonSerializer.Serialize<List<T>>(lst);
-                if (File.Exists(path))
-                {
-                    File.Delete(path);
-                }
-                File.WriteAllText(path, jsonString);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
     }
 }

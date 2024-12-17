@@ -10,8 +10,8 @@ namespace zimmers.API.Controllers
     [ApiController]
     public class CleanerController : ControllerBase
     {
-        readonly IService<Cleaner> _iService;
-        public CleanerController(IService<Cleaner> iService)
+        readonly ICleanerService _iService;
+        public CleanerController(ICleanerService iService)
         {
             _iService = iService;
         }
@@ -34,16 +34,22 @@ namespace zimmers.API.Controllers
 
         // POST api/<CleanerController>
         [HttpPost]
-        public ActionResult<bool> Post([FromBody] Cleaner cleaner)
+        public ActionResult<Cleaner> Post([FromBody] Cleaner cleaner)
         {
-            return _iService.Add(cleaner);
+            Cleaner c = _iService.Add(cleaner);
+            if (c == null)
+                return NotFound();
+            return c;
         }
 
         // PUT api/<CleanerController>/5
         [HttpPut("{id}")]
-        public ActionResult<bool> Put(int id, [FromBody] Cleaner cleaner)
+        public ActionResult<Cleaner> Put(int id, [FromBody] Cleaner cleaner)
         {
-            return _iService.Update(id, cleaner);
+            Cleaner c = _iService.Update(id, cleaner);
+            if (c == null)
+                return BadRequest();
+            return c;
         }
 
         // DELETE api/<CleanerController>/5

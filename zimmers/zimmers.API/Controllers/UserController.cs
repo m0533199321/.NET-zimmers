@@ -10,8 +10,8 @@ namespace zimmers.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        readonly IService<User> _iService;
-        public UserController(IService<User> iService)
+        readonly IUserService _iService;
+        public UserController(IUserService iService)
         {
             _iService = iService;
         }
@@ -34,16 +34,22 @@ namespace zimmers.API.Controllers
 
         // POST api/<Users>
         [HttpPost]
-        public ActionResult<bool> Post([FromBody] User user)
+        public ActionResult<User> Post([FromBody] User user)
         {
-            return _iService.Add(user);
+            User u = _iService.Add(user);
+            if (u == null)
+                return NotFound();
+            return u;
         }
 
         // PUT api/<Users>/5
         [HttpPut("{id}")]
-        public ActionResult<bool> Put(int id, [FromBody] User user)
+        public ActionResult<User> Put(int id, [FromBody] User user)
         {
-            return _iService.Update(id, user);
+            User u = _iService.Update(id, user);
+            if (u == null)
+                return NotFound();
+            return u;
         }
 
         // DELETE api/<Users>/5

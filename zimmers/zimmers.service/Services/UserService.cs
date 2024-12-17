@@ -3,7 +3,7 @@ using zimmers.core.Interfaces;
 
 namespace zimmers.service.Services
 {
-    public class UserService:IService<User>
+    public class UserService: IUserService
     {
         readonly IRepository<User> _iRepository;
         public UserService(IRepository<User> iRepository)
@@ -14,7 +14,7 @@ namespace zimmers.service.Services
         {
             return _iRepository.Get();
         }
-        public User GetById(int id)
+        public User? GetById(int id)
         {
            return _iRepository.GetById(id);
         }
@@ -40,22 +40,22 @@ namespace zimmers.service.Services
                 return true;
             return false;
         }
-        public bool Add(User user)
+        public User Add(User user)
         {
             if (IsValidTz(user.Tz))
             {
                 return _iRepository.Add(user);
             }
-            return false;
+            return null;
         }
-        public bool Update(int id, User user)
+        public User Update(int id, User user)
         {
             
             if (IsValidTz(user.Tz))
             {
                 return _iRepository.Update(id, user);
             }
-            return false;
+            return null;
         }
         public bool Delete(int id)
         {

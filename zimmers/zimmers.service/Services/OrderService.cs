@@ -8,7 +8,7 @@ using zimmers.core.Interfaces;
 
 namespace zimmers.service.Services
 {
-    public class OrderService:IService<Order>
+    public class OrderService:IOrderService
     {
         readonly IRepository<Order> _iRepository;
         public OrderService(IRepository<Order> iRepository)
@@ -19,15 +19,15 @@ namespace zimmers.service.Services
         {
             return _iRepository.Get();
         }
-        public Order GetById(int id)
+        public Order? GetById(int id)
         {
             return _iRepository.GetById(id);
         }
-        public bool Add(Order order)
+        public Order Add(Order order)
         {
             return _iRepository.Add(order);
         }
-        public bool Update(int id, Order order)
+        public Order Update(int id, Order order)
         {
             return _iRepository.Update(id, order);
         }

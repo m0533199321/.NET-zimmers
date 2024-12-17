@@ -10,8 +10,8 @@ namespace zimmers.API.Controllers
     [ApiController]
     public class ZimmerController : ControllerBase
     {
-        readonly IService<Zimmer> _iService;
-        public ZimmerController(IService<Zimmer> iService)
+        readonly IZimmerService _iService;
+        public ZimmerController(IZimmerService iService)
         {
             _iService = iService;
         }
@@ -34,16 +34,22 @@ namespace zimmers.API.Controllers
 
         // POST api/<ZimmerController>
         [HttpPost]
-        public ActionResult<bool> Post([FromBody] Zimmer zimmer)
+        public ActionResult<Zimmer> Post([FromBody] Zimmer zimmer)
         {
-            return _iService.Add(zimmer);
+            Zimmer z = _iService.Add(zimmer);
+            if (z == null)
+                return NotFound();
+            return z;
         }
 
         // PUT api/<ZimmerController>/5
         [HttpPut("{id}")]
-        public ActionResult<bool> Put(int id, [FromBody] Zimmer zimmer)
+        public ActionResult<Zimmer> Put(int id, [FromBody] Zimmer zimmer)
         {
-            return _iService.Update(id, zimmer);
+            Zimmer z = _iService.Update(id, zimmer);
+            if (z == null)
+                return NotFound();
+            return z;
         }
 
         // DELETE api/<ZimmerController>/5

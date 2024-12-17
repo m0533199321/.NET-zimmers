@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace zimmers.core.Entities
 {
     public class Zimmer
     {
-        static int id = 1;
+        [Key]
         public int Id { get; private set; }
         public int Owner_id { get; set; }
         public int Cleaner_id { get; set; }
@@ -25,8 +26,6 @@ namespace zimmers.core.Entities
         }
         public Zimmer(Zimmer z)
         {
-            Id = id;
-            id++;
             Owner_id = z.Owner_id;
             Cleaner_id = z.Cleaner_id;
             Name = z.Name;
@@ -37,18 +36,18 @@ namespace zimmers.core.Entities
             Total_per_night = z.Total_per_night;
             Num_of_nights_rented = z.Num_of_nights_rented;
         }
-        public Zimmer(int id_from_body, Zimmer z)
-        {
-            Id = id_from_body;
-            Owner_id = z.Owner_id;
-            Cleaner_id = z.Cleaner_id;
-            Name = z.Name;
-            Address = z.Address;
-            Num_of_rooms = z.Num_of_rooms;
-            Num_of_beds = z.Num_of_beds;
-            Yard_and_pool = z.Yard_and_pool;
-            Total_per_night = z.Total_per_night;
-            Num_of_nights_rented = z.Num_of_nights_rented;
-        }
+
+        //public void Copy(Zimmer my, Zimmer z)
+        //{
+        //    my.Owner_id = z.Owner_id != my.Owner_id ? z.Owner_id : my.Owner_id;
+        //    my.Cleaner_id = z.Cleaner_id != my.Cleaner_id ? z.Cleaner_id : my.Cleaner_id;
+        //    my.Name ??= z.Name;
+        //    my.Address ??= z.Address;
+        //    my.Num_of_rooms = z.Num_of_rooms != my.Num_of_rooms ? z.Num_of_rooms : my.Num_of_rooms;
+        //    my.Num_of_beds = z.Num_of_beds != my.Num_of_beds ? z.Num_of_beds : my.Num_of_beds;
+        //    my.Yard_and_pool = z.Yard_and_pool != my.Yard_and_pool ? z.Yard_and_pool : my.Yard_and_pool;
+        //    my.Total_per_night = z.Total_per_night != my.Total_per_night ? z.Total_per_night : my.Total_per_night;
+        //    my.Num_of_nights_rented = z.Num_of_nights_rented != my.Num_of_nights_rented ? z.Num_of_nights_rented : my.Num_of_nights_rented;
+        //}
     }
 }

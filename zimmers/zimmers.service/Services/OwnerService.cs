@@ -8,7 +8,7 @@ using zimmers.core.Interfaces;
 
 namespace zimmers.service.Services
 {
-    public class OwnerService:IService<Owner>
+    public class OwnerService:IOwnerService
     {
         readonly IRepository<Owner> _iRepository;
         public OwnerService(IRepository<Owner> iRepository)
@@ -19,7 +19,7 @@ namespace zimmers.service.Services
         {
             return _iRepository.Get();
         }
-        public Owner GetById(int id)
+        public Owner? GetById(int id)
         {
             return _iRepository.GetById(id);
         }
@@ -45,22 +45,22 @@ namespace zimmers.service.Services
                 return true;
             return false;
         }
-        public bool Add(Owner owner)
+        public Owner Add(Owner owner)
         {
             if (IsValidTz(owner.Tz))
             {
                 return _iRepository.Add(owner);
             }
-            return false;
+            return null;
         }
-        public bool Update(int id, Owner owner)
+        public Owner Update(int id, Owner owner)
         {
 
             if (IsValidTz(owner.Tz))
             {
                 return _iRepository.Update(id, owner);
             }
-            return false;
+            return null;
         }
         public bool Delete(int id)
         {
