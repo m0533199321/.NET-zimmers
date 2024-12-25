@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using zimmers.core.Entities;
-using zimmers.core.Interfaces;
+using zimmers.core.Interfaces.IService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,7 +17,7 @@ namespace zimmers.API.Controllers
         }
         // GET: api/<CleanerController>
         [HttpGet]
-        public ActionResult<IEnumerable<Cleaner>> Get()
+        public IEnumerable<Cleaner> Get()
         {
             return _iService.Get();
         }

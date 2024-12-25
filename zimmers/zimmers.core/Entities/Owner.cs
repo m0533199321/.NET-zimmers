@@ -16,9 +16,8 @@ namespace zimmers.core.Entities
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Bank_account { get; set; }
-        //public DateOnly Date_registration { get; set; }
-
         public DateTime Date_registration { get; set; }
+        public List<Zimmer> List_zimmers { get; set; }
 
         public Owner()
         {

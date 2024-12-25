@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
+using zimmers.core.Interfaces.IService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,14 +11,14 @@ namespace zimmers.API.Controllers
     [ApiController]
     public class OwnerController : ControllerBase
     {
-        readonly IOwnerService _iService;
+        private readonly IOwnerService _iService;
         public OwnerController(IOwnerService iService)
         {
             _iService = iService;
         }
         // GET: api/<OwnerController>
         [HttpGet]
-        public ActionResult<IEnumerable<Owner>> Get()
+        public IEnumerable<Owner> Get()
         {
             return _iService.Get();
         }

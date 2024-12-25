@@ -7,12 +7,12 @@ using zimmers.core.Entities;
 
 namespace zimmers.core.Interfaces
 {
-    public interface IOrderService
+    public interface IZimmerService
     {
-        public List<Order> Get();
-        public Order? GetById(int id);
-        public Order Add(Order o);
-        public Order Update(int id, Order o);
+        public IEnumerable<Zimmer> Get();
+        public Zimmer? GetById(int id);
+        public Zimmer Add(Zimmer z);
+        public Zimmer Update(int id, Zimmer z);
         public bool Delete(int id);
     }
 }

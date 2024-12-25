@@ -5,19 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
+using zimmers.core.Interfaces.IRepository;
+using zimmers.core.Interfaces.IService;
 
 namespace zimmers.service.Services
 {
     public class ZimmerService: IZimmerService
     {
-        readonly IRepository<Zimmer> _iRepository;
-        public ZimmerService(IRepository<Zimmer> iRepository)
+        private readonly IZimmerRepository _iRepository;
+        public ZimmerService(IZimmerRepository iRepository)
         {
             _iRepository = iRepository;
         }
-        public List<Zimmer> Get()
+        public IEnumerable<Zimmer> Get()
         {
-            return _iRepository.Get();
+            return _iRepository.GetFull();
         }
         public Zimmer? GetById(int id)
         {

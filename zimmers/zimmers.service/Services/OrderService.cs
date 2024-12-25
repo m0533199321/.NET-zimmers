@@ -5,19 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
+using zimmers.core.Interfaces.IRepository;
+using zimmers.core.Interfaces.IService;
 
 namespace zimmers.service.Services
 {
     public class OrderService:IOrderService
     {
-        readonly IRepository<Order> _iRepository;
-        public OrderService(IRepository<Order> iRepository)
+        private readonly IOrderRepository _iRepository;
+        public OrderService(IOrderRepository iRepository)
         {
             _iRepository = iRepository;
         }
-        public List<Order> Get()
+        public IEnumerable<Order> Get()
         {
-            return _iRepository.Get();
+            return _iRepository.GetFull();
         }
         public Order? GetById(int id)
         {

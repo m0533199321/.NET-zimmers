@@ -9,7 +9,7 @@ namespace zimmers.core.Interfaces
 {
     public interface IRepository<T>
     {
-        public List<T> Get();
+        public IEnumerable<T> Get();
         public T? GetById(int id);
         public T Add(T t);
         public T Update(int id, T t);

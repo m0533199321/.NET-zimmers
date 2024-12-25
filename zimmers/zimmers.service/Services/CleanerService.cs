@@ -5,19 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
+using zimmers.core.Interfaces.IRepository;
+using zimmers.core.Interfaces.IService;
 
 namespace zimmers.service.Services
 {
     public class CleanerService:ICleanerService
     {
-        readonly IRepository<Cleaner> _iRepository;
-        public CleanerService(IRepository<Cleaner> iRepository)
+        readonly ICleanerRepository _iRepository;
+        public CleanerService(ICleanerRepository iRepository)
         {
             _iRepository = iRepository;
         }
-        public List<Cleaner> Get()
+        public IEnumerable<Cleaner> Get()
         {
-            return _iRepository.Get();
+            return _iRepository.GetFull();
         }
         public Cleaner? GetById(int id)
         {

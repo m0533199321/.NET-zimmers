@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
+using zimmers.core.Interfaces.IService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,14 +11,14 @@ namespace zimmers.API.Controllers
     [ApiController]
     public class ZimmerController : ControllerBase
     {
-        readonly IZimmerService _iService;
+        private readonly IZimmerService _iService;
         public ZimmerController(IZimmerService iService)
         {
             _iService = iService;
         }
         // GET: api/<ZimmerController>
         [HttpGet]
-        public ActionResult<IEnumerable<Zimmer>> Get()
+        public IEnumerable<Zimmer> Get()
         {
             return _iService.Get();
         }

@@ -22,7 +22,7 @@ namespace zimmers.data.Repository
             _dataSet = dataContext.Set<T>();
             _iManager = manager;
         }
-        public List<T> Get()
+        public IEnumerable<T> Get()
         {
             return _dataSet.ToList();
         }

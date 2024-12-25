@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using zimmers.data;
 
@@ -11,9 +12,10 @@ using zimmers.data;
 namespace zimmers.data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241222154237_relationShips")]
+    partial class relationShips
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,7 +89,13 @@ namespace zimmers.data.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int>("User_id")
+                        .HasColumnType("int");
+
                     b.Property<int>("ZimmerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Zimmer_id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -195,6 +203,9 @@ namespace zimmers.data.Migrations
                     b.Property<int>("CleanerId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Cleaner_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -211,6 +222,9 @@ namespace zimmers.data.Migrations
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Owner_id")
+                        .HasColumnType("int");
+
                     b.Property<int>("Total_per_night")
                         .HasColumnType("int");
 
@@ -223,7 +237,7 @@ namespace zimmers.data.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("zimmers");
+                    b.ToTable("zimmer");
                 });
 
             modelBuilder.Entity("zimmers.core.Entities.Order", b =>
@@ -247,21 +261,21 @@ namespace zimmers.data.Migrations
 
             modelBuilder.Entity("zimmers.core.Entities.Zimmer", b =>
                 {
-                    b.HasOne("zimmers.core.Entities.Cleaner", "cleaner")
+                    b.HasOne("zimmers.core.Entities.Cleaner", "Cleaner")
                         .WithMany("List_zimmers")
                         .HasForeignKey("CleanerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("zimmers.core.Entities.Owner", "owner")
+                    b.HasOne("zimmers.core.Entities.Owner", "Owner")
                         .WithMany("List_zimmers")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("cleaner");
+                    b.Navigation("Cleaner");
 
-                    b.Navigation("owner");
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("zimmers.core.Entities.Cleaner", b =>

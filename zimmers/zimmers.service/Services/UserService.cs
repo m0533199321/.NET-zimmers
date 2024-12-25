@@ -1,18 +1,20 @@
 ﻿using zimmers.core.Entities;
 using zimmers.core.Interfaces;
+using zimmers.core.Interfaces.IRepository;
+using zimmers.core.Interfaces.IService;
 
 namespace zimmers.service.Services
 {
     public class UserService: IUserService
     {
-        readonly IRepository<User> _iRepository;
-        public UserService(IRepository<User> iRepository)
+        private readonly IUserRepository _iRepository;
+        public UserService(IUserRepository iRepository)
         {
             _iRepository = iRepository;
         }
-        public List<User> Get()
+        public IEnumerable<User> Get()
         {
-            return _iRepository.Get();
+            return _iRepository.GetFull();
         }
         public User? GetById(int id)
         {

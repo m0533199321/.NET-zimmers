@@ -17,12 +17,11 @@ namespace zimmers.core.Entities
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Bank_account { get; set; }
-        //public DateOnly Date_registration { get; set; }
-
         public DateTime Date_registration { get; set; }
         public int Total_for_an_hour_of_work { get; set; }
         public int Total_salary { get; set; }
         public int Total_working_hours { get; set; }
+        public List<Zimmer> List_zimmers { get; set; }
         public Cleaner()
         {
 

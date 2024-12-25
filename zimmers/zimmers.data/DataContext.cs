@@ -10,7 +10,7 @@ namespace zimmers.data
         public DbSet<Order> orders { get; set; }
         public DbSet<Owner> owners { get; set; }
         public DbSet<User> users { get; set; }
-        public DbSet<Zimmer> zimmer { get; set; }
+        public DbSet<Zimmer> zimmers { get; set; }
 
         public DataContext(DbContextOptions<DataContext> option):base(option)
         {     }

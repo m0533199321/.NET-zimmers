@@ -11,12 +11,11 @@ namespace zimmers.core.Entities
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Bank_account { get; set; }
-        //public DateOnly Date_registration { get; set; }
-
         public DateTime Date_registration { get; set; }
         public int Max_amount_per_night { get; set; }
         public int Num_of_persons { get; set; }
         public int Num_of_orders { get; set; }
+        public List<Order> List_orders { get; set; }
         public User()
         {
 

@@ -7,12 +7,12 @@ using zimmers.core.Entities;
 
 namespace zimmers.core.Interfaces
 {
-    public interface IUserService
+    public interface IOwnerService
     {
-        public List<User> Get();
-        public User? GetById(int id);
-        public User Add(User u);
-        public User Update(int id, User u);
+        public IEnumerable<Owner> Get();
+        public Owner? GetById(int id);
+        public Owner Add(Owner o);
+        public Owner Update(int id, Owner o);
         public bool Delete(int id);
     }
 }
