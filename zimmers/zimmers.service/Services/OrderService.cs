@@ -12,30 +12,39 @@ namespace zimmers.service.Services
 {
     public class OrderService:IOrderService
     {
-        private readonly IOrderRepository _iRepository;
-        public OrderService(IOrderRepository iRepository)
+        readonly IRepositoryManager _iManager;
+        public OrderService(IRepositoryManager repositoryManager)
         {
-            _iRepository = iRepository;
+            _iManager = repositoryManager;
         }
         public IEnumerable<Order> Get()
         {
-            return _iRepository.GetFull();
+            return _iManager._orderRepository.GetFull();
         }
         public Order? GetById(int id)
         {
-            return _iRepository.GetById(id);
+            return _iManager._orderRepository.GetById(id);
         }
         public Order Add(Order order)
         {
-            return _iRepository.Add(order);
+            order = _iManager._orderRepository.Add(order);
+            if(order != null)
+                _iManager.save();
+            return order;
         }
         public Order Update(int id, Order order)
         {
-            return _iRepository.Update(id, order);
+            order = _iManager._orderRepository.Update(id, order);
+            if (order != null)
+                _iManager.save();
+            return order;
         }
         public bool Delete(int id)
         {
-            return _iRepository.Delete(id);
+            bool isDeleted = _iManager._orderRepository.Delete(id);
+            if (isDeleted)
+                _iManager.save();
+            return isDeleted;
         }
     }
 }

@@ -12,18 +12,18 @@ namespace zimmers.service.Services
 {
     public class CleanerService:ICleanerService
     {
-        readonly ICleanerRepository _iRepository;
-        public CleanerService(ICleanerRepository iRepository)
+        readonly IRepositoryManager _iManager;
+        public CleanerService(IRepositoryManager repositoryManager)
         {
-            _iRepository = iRepository;
+            _iManager = repositoryManager;
         }
         public IEnumerable<Cleaner> Get()
         {
-            return _iRepository.GetFull();
+            return _iManager._cleanerRepository.GetFull();
         }
         public Cleaner? GetById(int id)
         {
-            return _iRepository.GetById(id);
+            return _iManager._cleanerRepository.GetById(id);
         }
         public bool IsValidTz(string tz)
         {
@@ -51,22 +51,29 @@ namespace zimmers.service.Services
         {
             if (IsValidTz(cleaner.Tz))
             {
-                return _iRepository.Add(cleaner);
+                cleaner = _iManager._cleanerRepository.Add(cleaner);
+                if(cleaner !=null)
+                    _iManager.save();
             }
-            return null;
+            return cleaner;
         }
         public Cleaner Update(int id, Cleaner cleaner)
         {
 
             if (IsValidTz(cleaner.Tz))
             {
-                return _iRepository.Update(id, cleaner);
+                cleaner = _iManager._cleanerRepository.Update(id, cleaner);
+                if (cleaner != null)
+                    _iManager.save();
             }
-            return null;
+            return cleaner;
         }
         public bool Delete(int id)
         {
-            return _iRepository.Delete(id);
+            bool isDeleted = _iManager._cleanerRepository.Delete(id);
+            if(isDeleted)
+                _iManager._cleanerRepository.Delete(id);
+            return isDeleted;
         }
     }
 }

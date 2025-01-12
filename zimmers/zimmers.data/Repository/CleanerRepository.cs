@@ -13,8 +13,8 @@ namespace zimmers.data.Repository
     public class CleanerRepository: Repository<Cleaner>, ICleanerRepository
     {
         readonly DbSet<Cleaner> _dbset;
-        public CleanerRepository(DataContext dataContext, IRepositoryManager repositoryManager)
-            : base(dataContext, repositoryManager)
+        public CleanerRepository(DataContext dataContext)
+            : base(dataContext)
         {
             _dbset = dataContext.Set<Cleaner>();
         }
@@ -22,6 +22,14 @@ namespace zimmers.data.Repository
         {
            return _dbset.Include(z => z.List_zimmers).ToList();
         }
+
+
+
+
+
+
+
+
         //public Cleaner GetById(int id)
         //{
         //    return _dataContext.cleaners.FirstOrDefault(x => x.Id == id);

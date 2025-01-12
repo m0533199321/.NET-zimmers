@@ -13,8 +13,8 @@ namespace zimmers.data.Repository
     public class OrderRepository:Repository<Order>, IOrderRepository
     {
         readonly DbSet<Order> _dbset;
-        public OrderRepository(DataContext dataContext, IRepositoryManager repositoryManager)
-            : base(dataContext, repositoryManager)
+        public OrderRepository(DataContext dataContext)
+            : base(dataContext)
         {
             _dbset = dataContext.Set<Order>();
         }

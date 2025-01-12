@@ -16,11 +16,9 @@ namespace zimmers.data.Repository
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly DbSet<T> _dataSet;
-        private readonly IRepositoryManager _iManager;
-        public Repository(DataContext dataContext, IRepositoryManager manager)
+        public Repository(DataContext dataContext)
         {
             _dataSet = dataContext.Set<T>();
-            _iManager = manager;
         }
         public IEnumerable<T> Get()
         {
@@ -33,7 +31,7 @@ namespace zimmers.data.Repository
         public T Add(T t)
         {
             _dataSet.Add(t);
-            _iManager.save();
+            //_iManager.save();
             return t;
         }
         public T Update(int id, T updatedEntity)
@@ -55,38 +53,41 @@ namespace zimmers.data.Repository
                     property.SetValue(existingEntity, updatedValue);
                 }
             }
-            _iManager.save();
+            //_iManager.save();
             return existingEntity;
         }
 
-        //public T Update(int id, T t)
-        //{
-        //    var existingEntity = _dataSet.Find(id);
-        //    if (existingEntity == null)
-        //        return null;
-
-        //    var properties = typeof(T).GetFields(BindingFlags.NonPublic | BindingFlags.Public)
-        //     .Where(prop => prop.Name != "Id");
-
-        //    foreach (var property in properties)
-        //    {
-        //        var updatedValue = property.GetValue(t);
-
-        //        property.SetValue(existingEntity, updatedValue);
-        //    }
-        //    _iManager.save();
-        //    return t;
-        //}
         public bool Delete(int id)
         {
             T find = _dataSet.Find(id);
             if (find != null)
             {
                 _dataSet.Remove(find);
-                _iManager.save();
+                //_iManager.save();
                 return true;
             }
             return false;
         }
     }
 }
+
+
+
+//public T Update(int id, T t)
+//{
+//    var existingEntity = _dataSet.Find(id);
+//    if (existingEntity == null)
+//        return null;
+
+//    var properties = typeof(T).GetFields(BindingFlags.NonPublic | BindingFlags.Public)
+//     .Where(prop => prop.Name != "Id");
+
+//    foreach (var property in properties)
+//    {
+//        var updatedValue = property.GetValue(t);
+
+//        property.SetValue(existingEntity, updatedValue);
+//    }
+//    _iManager.save();
+//    return t;
+//}

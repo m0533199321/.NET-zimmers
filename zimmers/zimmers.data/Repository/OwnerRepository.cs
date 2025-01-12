@@ -13,12 +13,11 @@ namespace zimmers.data.Repository
     public class OwnerRepository:Repository<Owner>, IOwnerRepository
     {
         readonly DbSet<Owner> _dbset;
-        public OwnerRepository(DataContext dataContext, IRepositoryManager repositoryManager)
-            : base(dataContext, repositoryManager)
+        public OwnerRepository(DataContext dataContext)
+            : base(dataContext)
         {
             _dbset = dataContext.Set<Owner>();
         }
-
 
         public IEnumerable<Owner> GetFull()
         {

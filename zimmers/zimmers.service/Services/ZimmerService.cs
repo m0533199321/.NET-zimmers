@@ -10,32 +10,41 @@ using zimmers.core.Interfaces.IService;
 
 namespace zimmers.service.Services
 {
-    public class ZimmerService: IZimmerService
+    public class ZimmerService : IZimmerService
     {
-        private readonly IZimmerRepository _iRepository;
-        public ZimmerService(IZimmerRepository iRepository)
+        readonly IRepositoryManager _iManager;
+        public ZimmerService(IRepositoryManager repositoryManager)
         {
-            _iRepository = iRepository;
+            _iManager = repositoryManager;
         }
         public IEnumerable<Zimmer> Get()
         {
-            return _iRepository.GetFull();
+            return _iManager._zimmerRepository.GetFull();
         }
         public Zimmer? GetById(int id)
         {
-            return _iRepository.GetById(id);
+            return _iManager._zimmerRepository.GetById(id);
         }
         public Zimmer Add(Zimmer zimmer)
         {
-            return _iRepository.Add(zimmer);
+            zimmer = _iManager._zimmerRepository.Add(zimmer);
+            if (zimmer != null)
+                _iManager.save();
+            return zimmer;
         }
         public Zimmer Update(int id, Zimmer zimmer)
         {
-            return _iRepository.Update(id, zimmer);
+            zimmer = _iManager._zimmerRepository.Update(id, zimmer);
+            if (zimmer != null)
+                _iManager.save();
+            return zimmer;
         }
         public bool Delete(int id)
         {
-            return _iRepository.Delete(id);
+            bool isDeleted = _iManager._zimmerRepository.Delete(id);
+            if(isDeleted)
+                _iManager.save();
+            return isDeleted;
         }
     }
 }

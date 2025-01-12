@@ -5,20 +5,20 @@ using zimmers.core.Interfaces.IService;
 
 namespace zimmers.service.Services
 {
-    public class UserService: IUserService
+    public class UserService : IUserService
     {
-        private readonly IUserRepository _iRepository;
-        public UserService(IUserRepository iRepository)
+        readonly IRepositoryManager _iManager;
+        public UserService(IRepositoryManager repositoryManager)
         {
-            _iRepository = iRepository;
+            _iManager = repositoryManager;
         }
         public IEnumerable<User> Get()
         {
-            return _iRepository.GetFull();
+            return _iManager._userRepository.GetFull();
         }
         public User? GetById(int id)
         {
-           return _iRepository.GetById(id);
+            return _iManager._userRepository.GetById(id);
         }
         public bool IsValidTz(string tz)
         {
@@ -46,22 +46,29 @@ namespace zimmers.service.Services
         {
             if (IsValidTz(user.Tz))
             {
-                return _iRepository.Add(user);
+                user = _iManager._userRepository.Add(user);
+                if (user != null)
+                    _iManager.save();
             }
-            return null;
+            return user;
         }
         public User Update(int id, User user)
         {
-            
+
             if (IsValidTz(user.Tz))
             {
-                return _iRepository.Update(id, user);
+                user = _iManager._userRepository.Update(id, user);
+                if (user != null)
+                    _iManager.save();
             }
-            return null;
+            return user;
         }
         public bool Delete(int id)
         {
-            return _iRepository.Delete(id);
+            bool isDeleted = _iManager._userRepository.Delete(id);
+            if (isDeleted)
+                _iManager.save();
+            return isDeleted;
         }
     }
 }

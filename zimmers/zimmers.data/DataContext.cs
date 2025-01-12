@@ -6,11 +6,11 @@ namespace zimmers.data
 {
     public class DataContext:DbContext
     {
-        public DbSet<Cleaner> cleaners { get; set; }
-        public DbSet<Order> orders { get; set; }
-        public DbSet<Owner> owners { get; set; }
-        public DbSet<User> users { get; set; }
-        public DbSet<Zimmer> zimmers { get; set; }
+        public DbSet<Cleaner> Cleaners { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Owner> Owners { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Zimmer> Zimmers { get; set; }
 
         public DataContext(DbContextOptions<DataContext> option):base(option)
         {     }

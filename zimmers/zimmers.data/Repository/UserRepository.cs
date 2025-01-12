@@ -13,8 +13,8 @@ namespace zimmers.data.Repository
     public class UserRepository:Repository<User>, IUserRepository
     {
         private readonly DbSet<User> _dbset;
-        public UserRepository(DataContext dataContext, IRepositoryManager repositoryManager)
-            : base(dataContext, repositoryManager)
+        public UserRepository(DataContext dataContext)
+            : base(dataContext)
         {
             _dbset = dataContext.Set<User>();
         }

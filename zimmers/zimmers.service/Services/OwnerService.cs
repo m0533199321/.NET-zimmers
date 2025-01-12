@@ -12,18 +12,18 @@ namespace zimmers.service.Services
 {
     public class OwnerService:IOwnerService
     {
-        readonly IOwnerRepository _iRepository;
-        public OwnerService(IOwnerRepository iRepository)
+        readonly IRepositoryManager _iManager;
+        public OwnerService(IRepositoryManager repositoryManager)
         {
-            _iRepository = iRepository;
+            _iManager = repositoryManager;
         }
         public IEnumerable<Owner> Get()
         {
-            return _iRepository.GetFull();
+            return _iManager._ownerRepository.GetFull();
         }
         public Owner? GetById(int id)
         {
-            return _iRepository.GetById(id);
+            return _iManager._ownerRepository.GetById(id);
         }
         public bool IsValidTz(string tz)
         {
@@ -51,22 +51,29 @@ namespace zimmers.service.Services
         {
             if (IsValidTz(owner.Tz))
             {
-                return _iRepository.Add(owner);
+                owner = _iManager._ownerRepository.Add(owner);
+                if(owner != null)
+                    _iManager.save();
             }
-            return null;
+            return owner;
         }
         public Owner Update(int id, Owner owner)
         {
 
             if (IsValidTz(owner.Tz))
             {
-                return _iRepository.Update(id, owner);
+                owner = _iManager._ownerRepository.Update(id, owner);
+                if (owner != null)
+                    _iManager.save();
             }
             return null;
         }
         public bool Delete(int id)
         {
-            return _iRepository.Delete(id);
+            bool isDeleted = _iManager._ownerRepository.Delete(id);
+            if (isDeleted)
+                _iManager.save();
+            return isDeleted;
         }
     }
 }

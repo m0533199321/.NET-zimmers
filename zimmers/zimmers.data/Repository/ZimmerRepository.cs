@@ -13,8 +13,8 @@ namespace zimmers.data.Repository
     public class ZimmerRepository:Repository<Zimmer>, IZimmerRepository
     {
         private readonly DbSet<Zimmer> _dbset;
-        public ZimmerRepository(DataContext dataContext,IRepositoryManager repositoryManager)
-            :base(dataContext,repositoryManager)
+        public ZimmerRepository(DataContext dataContext)
+            :base(dataContext)
         {
             _dbset = dataContext.Set<Zimmer>();
         }
