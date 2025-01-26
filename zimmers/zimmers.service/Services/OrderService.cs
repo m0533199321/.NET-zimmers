@@ -1,8 +1,10 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using zimmers.core.DTOs;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
 using zimmers.core.Interfaces.IRepository;
@@ -10,34 +12,42 @@ using zimmers.core.Interfaces.IService;
 
 namespace zimmers.service.Services
 {
-    public class OrderService:IOrderService
+    public class OrderService : IOrderService
     {
-        readonly IRepositoryManager _iManager;
-        public OrderService(IRepositoryManager repositoryManager)
+        private readonly IRepositoryManager _iManager;
+        private readonly IMapper _mapper;
+        public OrderService(IRepositoryManager repositoryManager, IMapper mapper)
         {
             _iManager = repositoryManager;
+            _mapper = mapper;
         }
-        public IEnumerable<Order> Get()
+        public IEnumerable<OrderDto> Get()
         {
-            return _iManager._orderRepository.GetFull();
+            var orders = _iManager._orderRepository.Get();
+            var ordersDto = _mapper.Map<IEnumerable<OrderDto>>(orders);
+            return ordersDto;
         }
-        public Order? GetById(int id)
+        public OrderDto? GetById(int id)
         {
-            return _iManager._orderRepository.GetById(id);
+            var order = _iManager._orderRepository.GetById(id);
+            var orderDto = _mapper.Map<OrderDto>(order);
+            return orderDto;
         }
-        public Order Add(Order order)
+        public OrderDto Add(OrderDto orderDto)
         {
+            var order = _mapper.Map<Order>(orderDto);
             order = _iManager._orderRepository.Add(order);
-            if(order != null)
+            if (order != null)
                 _iManager.save();
-            return order;
+            return order != null ? orderDto : null;
         }
-        public Order Update(int id, Order order)
+        public OrderDto Update(int id, OrderDto orderDto)
         {
+            var order = _mapper.Map<Order>(orderDto);
             order = _iManager._orderRepository.Update(id, order);
             if (order != null)
                 _iManager.save();
-            return order;
+            return order != null ? orderDto : null;
         }
         public bool Delete(int id)
         {

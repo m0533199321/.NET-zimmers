@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using zimmers.API.PostModels;
+using zimmers.core.DTOs;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
 using zimmers.core.Interfaces.IService;
@@ -12,45 +15,49 @@ namespace zimmers.API.Controllers
     public class ZimmerController : ControllerBase
     {
         private readonly IZimmerService _iService;
-        public ZimmerController(IZimmerService iService)
+        private readonly IMapper _mapper;
+        public ZimmerController(IZimmerService iService, IMapper mapper)
         {
             _iService = iService;
+            _mapper = mapper;
         }
         // GET: api/<ZimmerController>
         [HttpGet]
-        public IEnumerable<Zimmer> Get()
+        public IEnumerable<ZimmerDto> Get()
         {
             return _iService.Get();
         }
 
         // GET api/<ZimmerController>/5
         [HttpGet("{id}")]
-        public ActionResult<Zimmer> Get(int id)
+        public ActionResult<ZimmerDto> Get(int id)
         {
-            Zimmer z = _iService.GetById(id);
-            if (z == null)
+            ZimmerDto zimmerDto = _iService.GetById(id);
+            if (zimmerDto == null)
                 return NotFound();
-            return z;
+            return zimmerDto;
         }
 
         // POST api/<ZimmerController>
         [HttpPost]
-        public ActionResult<Zimmer> Post([FromBody] Zimmer zimmer)
+        public ActionResult<ZimmerDto> Post([FromBody] ZimmerPostModel zimmerPostModel)
         {
-            Zimmer z = _iService.Add(zimmer);
-            if (z == null)
+            ZimmerDto zimmerDto = _mapper.Map<ZimmerDto>(zimmerPostModel);
+            zimmerDto = _iService.Add(zimmerDto);
+            if (zimmerDto == null)
                 return NotFound();
-            return z;
+            return zimmerDto;
         }
 
         // PUT api/<ZimmerController>/5
         [HttpPut("{id}")]
-        public ActionResult<Zimmer> Put(int id, [FromBody] Zimmer zimmer)
+        public ActionResult<ZimmerDto> Put(int id, [FromBody] ZimmerPostModel zimmerPostModel)
         {
-            Zimmer z = _iService.Update(id, zimmer);
-            if (z == null)
+            ZimmerDto zimmerDto = _mapper.Map<ZimmerDto>(zimmerPostModel);
+            zimmerDto = _iService.Update(id, zimmerDto);
+            if (zimmerDto == null)
                 return NotFound();
-            return z;
+            return zimmerDto;
         }
 
         // DELETE api/<ZimmerController>/5

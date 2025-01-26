@@ -1,8 +1,10 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using zimmers.core.DTOs;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
 using zimmers.core.Interfaces.IRepository;
@@ -12,18 +14,24 @@ namespace zimmers.service.Services
 {
     public class OwnerService:IOwnerService
     {
-        readonly IRepositoryManager _iManager;
-        public OwnerService(IRepositoryManager repositoryManager)
+        private readonly IRepositoryManager _iManager;
+        private readonly IMapper _mapper;
+        public OwnerService(IRepositoryManager repositoryManager, IMapper mapper)
         {
             _iManager = repositoryManager;
+            _mapper = mapper;
         }
-        public IEnumerable<Owner> Get()
+        public IEnumerable<OwnerDto> Get()
         {
-            return _iManager._ownerRepository.GetFull();
+            var owners = _iManager._ownerRepository.Get();
+            var ownersDto = _mapper.Map<IEnumerable<OwnerDto>>(owners);
+            return ownersDto;
         }
-        public Owner? GetById(int id)
+        public OwnerDto? GetById(int id)
         {
-            return _iManager._ownerRepository.GetById(id);
+            var owner = _iManager._ownerRepository.GetById(id);
+            var ownerDto = _mapper.Map<OwnerDto>(owner);
+            return ownerDto;
         }
         public bool IsValidTz(string tz)
         {
@@ -47,24 +55,32 @@ namespace zimmers.service.Services
                 return true;
             return false;
         }
-        public Owner Add(Owner owner)
+        public OwnerDto Add(OwnerDto ownerDto)
         {
-            if (IsValidTz(owner.Tz))
+            if (IsValidTz(ownerDto.Tz))
             {
+                var owner = _mapper.Map<Owner>(ownerDto);
                 owner = _iManager._ownerRepository.Add(owner);
-                if(owner != null)
+                if (owner != null)
+                {
                     _iManager.save();
+                    return ownerDto;
+                }
             }
-            return owner;
+            return null;
         }
-        public Owner Update(int id, Owner owner)
+        public OwnerDto Update(int id, OwnerDto ownerDto)
         {
 
-            if (IsValidTz(owner.Tz))
+            if (IsValidTz(ownerDto.Tz))
             {
+                var owner = _mapper.Map<Owner>(ownerDto);
                 owner = _iManager._ownerRepository.Update(id, owner);
                 if (owner != null)
+                { 
                     _iManager.save();
+                    return ownerDto;
+                }
             }
             return null;
         }

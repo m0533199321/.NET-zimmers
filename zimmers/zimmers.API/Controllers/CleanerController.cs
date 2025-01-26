@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using zimmers.API.PostModels;
+using zimmers.core.DTOs;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces.IService;
 
@@ -10,46 +13,50 @@ namespace zimmers.API.Controllers
     [ApiController]
     public class CleanerController : ControllerBase
     {
-        readonly ICleanerService _iService;
-        public CleanerController(ICleanerService iService)
+        private readonly ICleanerService _iService;
+        private readonly IMapper _mapper;
+        public CleanerController(ICleanerService iService, IMapper mapper)
         {
             _iService = iService;
+            _mapper = mapper;
         }
         // GET: api/<CleanerController>
         [HttpGet]
-        public IEnumerable<Cleaner> Get()
+        public IEnumerable<CleanerDto> Get()
         {
             return _iService.Get();
         }
 
         // GET api/<CleanerController>/5
         [HttpGet("{id}")]
-        public ActionResult<Cleaner> Get(int id)
+        public ActionResult<CleanerDto> Get(int id)
         {
-            Cleaner c = _iService.GetById(id);
-            if (c == null)
+            CleanerDto cleanerDto = _iService.GetById(id);
+            if (cleanerDto == null)
                 return NotFound();
-            return c;
+            return cleanerDto;
         }
 
         // POST api/<CleanerController>
         [HttpPost]
-        public ActionResult<Cleaner> Post([FromBody] Cleaner cleaner)
+        public ActionResult<CleanerDto> Post([FromBody] CleanerPostModel cleanerPostModel)
         {
-            Cleaner c = _iService.Add(cleaner);
-            if (c == null)
+            CleanerDto cleanerDto = _mapper.Map<CleanerDto>(cleanerPostModel);
+            cleanerDto = _iService.Add(cleanerDto);
+            if (cleanerDto == null)
                 return NotFound();
-            return c;
+            return cleanerDto;
         }
 
         // PUT api/<CleanerController>/5
         [HttpPut("{id}")]
-        public ActionResult<Cleaner> Put(int id, [FromBody] Cleaner cleaner)
+        public ActionResult<CleanerDto> Put(int id, [FromBody] CleanerPostModel cleanerPostModel)
         {
-            Cleaner c = _iService.Update(id, cleaner);
-            if (c == null)
+            CleanerDto cleanerDto = _mapper.Map<CleanerDto>(cleanerPostModel);
+            cleanerDto = _iService.Update(id, cleanerDto);
+            if (cleanerDto == null)
                 return BadRequest();
-            return c;
+            return cleanerDto;
         }
 
         // DELETE api/<CleanerController>/5

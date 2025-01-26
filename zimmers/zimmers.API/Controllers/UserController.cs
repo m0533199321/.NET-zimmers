@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using zimmers.API.PostModels;
+using zimmers.core.DTOs;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
 using zimmers.core.Interfaces.IService;
@@ -12,45 +15,49 @@ namespace zimmers.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _iService;
-        public UserController(IUserService iService)
+        private readonly IMapper _mapper;
+        public UserController(IUserService iService, IMapper mapper)
         {
             _iService = iService;
+            _mapper = mapper;
         }
         // GET: api/<Users>
         [HttpGet]
-        public IEnumerable<User> Get()
+        public IEnumerable<UserDto> Get()
         {
             return _iService.Get();
         }
 
         // GET api/<Users>/5
         [HttpGet("{id}")]
-        public ActionResult<User> Get(int id)
+        public ActionResult<UserDto> Get(int id)
         {
-            User u = _iService.GetById(id);
-            if (u == null)
+            UserDto userDto = _iService.GetById(id);
+            if (userDto == null)
                 return NotFound();
-            return u;
+            return userDto;
         }
 
         // POST api/<Users>
         [HttpPost]
-        public ActionResult<User> Post([FromBody] User user)
+        public ActionResult<UserDto> Post([FromBody] UserPostModel userPostModel)
         {
-            User u = _iService.Add(user);
-            if (u == null)
+            UserDto userDto = _mapper.Map<UserDto>(userPostModel);
+            userDto = _iService.Add(userDto);
+            if (userDto == null)
                 return NotFound();
-            return u;
+            return userDto;
         }
 
         // PUT api/<Users>/5
         [HttpPut("{id}")]
-        public ActionResult<User> Put(int id, [FromBody] User user)
+        public ActionResult<UserDto> Put(int id, [FromBody] UserPostModel userPostModel)
         {
-            User u = _iService.Update(id, user);
-            if (u == null)
+            UserDto userDto = _mapper.Map<UserDto>(userPostModel);
+            userDto = _iService.Update(id, userDto);
+            if (userDto == null)
                 return NotFound();
-            return u;
+            return userDto;
         }
 
         // DELETE api/<Users>/5

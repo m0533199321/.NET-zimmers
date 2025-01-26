@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using zimmers.API.PostModels;
+using zimmers.core.DTOs;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
 using zimmers.core.Interfaces.IService;
@@ -12,45 +15,49 @@ namespace zimmers.API.Controllers
     public class OwnerController : ControllerBase
     {
         private readonly IOwnerService _iService;
-        public OwnerController(IOwnerService iService)
+        private readonly IMapper _mapper;
+        public OwnerController(IOwnerService iService, IMapper mapper)
         {
             _iService = iService;
+            _mapper = mapper;
         }
         // GET: api/<OwnerController>
         [HttpGet]
-        public IEnumerable<Owner> Get()
+        public IEnumerable<OwnerDto> Get()
         {
             return _iService.Get();
         }
 
         // GET api/<OwnerController>/5
         [HttpGet("{id}")]
-        public ActionResult<Owner> Get(int id)
+        public ActionResult<OwnerDto> Get(int id)
         {
-            Owner o = _iService.GetById(id);
-            if (o == null)
+            OwnerDto ownerDto = _iService.GetById(id);
+            if (ownerDto == null)
                 return NotFound();
-            return o;
+            return ownerDto;
         }
 
         // POST api/<OwnerController>
         [HttpPost]
-        public ActionResult<Owner> Post([FromBody] Owner owner)
+        public ActionResult<OwnerDto> Post([FromBody] OwnerPostModel ownerPostModel)
         {
-            Owner o = _iService.Add(owner);
-            if (o == null)
+            OwnerDto ownerDto = _mapper.Map<OwnerDto>(ownerPostModel);
+            ownerDto = _iService.Add(ownerDto);
+            if (ownerDto == null)
                 return NotFound();
-            return o;
+            return ownerDto;
         }
 
         // PUT api/<OwnerController>/5
         [HttpPut("{id}")]
-        public ActionResult<Owner> Put(int id, [FromBody] Owner owner)
+        public ActionResult<OwnerDto> Put(int id, [FromBody] OwnerPostModel ownerPostModel)
         {
-            Owner o = _iService.Update(id, owner);
-            if (o == null)
+            OwnerDto ownerDto = _mapper.Map<OwnerDto>(ownerPostModel);
+            ownerDto = _iService.Update(id, ownerDto);
+            if (ownerDto == null)
                 return NotFound();
-            return o;
+            return ownerDto;
         }
 
         // DELETE api/<OwnerController>/5

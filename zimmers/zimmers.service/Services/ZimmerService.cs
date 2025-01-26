@@ -1,8 +1,10 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using zimmers.core.DTOs;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
 using zimmers.core.Interfaces.IRepository;
@@ -12,37 +14,51 @@ namespace zimmers.service.Services
 {
     public class ZimmerService : IZimmerService
     {
-        readonly IRepositoryManager _iManager;
-        public ZimmerService(IRepositoryManager repositoryManager)
+        private readonly IRepositoryManager _iManager;
+        private readonly IMapper _mapper;
+        public ZimmerService(IRepositoryManager repositoryManager, IMapper mapper)
         {
             _iManager = repositoryManager;
+            _mapper = mapper;
         }
-        public IEnumerable<Zimmer> Get()
+        public IEnumerable<ZimmerDto> Get()
         {
-            return _iManager._zimmerRepository.GetFull();
+            var zimmers = _iManager._zimmerRepository.Get();
+            var zimmersDto = _mapper.Map<IEnumerable<ZimmerDto>>(zimmers);
+            return zimmersDto;
         }
-        public Zimmer? GetById(int id)
+        public ZimmerDto? GetById(int id)
         {
-            return _iManager._zimmerRepository.GetById(id);
+            var zimmer = _iManager._zimmerRepository.GetById(id);
+            var zimmerDto = _mapper.Map<ZimmerDto>(zimmer);
+            return zimmerDto;
         }
-        public Zimmer Add(Zimmer zimmer)
+        public ZimmerDto Add(ZimmerDto zimmerDto)
         {
+            var zimmer = _mapper.Map<Zimmer>(zimmerDto);
             zimmer = _iManager._zimmerRepository.Add(zimmer);
             if (zimmer != null)
+            {
                 _iManager.save();
-            return zimmer;
+                return zimmerDto;
+            }
+            return null;
         }
-        public Zimmer Update(int id, Zimmer zimmer)
+        public ZimmerDto Update(int id, ZimmerDto zimmerDto)
         {
+            var zimmer = _mapper.Map<Zimmer>(zimmerDto);
             zimmer = _iManager._zimmerRepository.Update(id, zimmer);
             if (zimmer != null)
+            {
                 _iManager.save();
-            return zimmer;
+                return zimmerDto;
+            }
+            return null;
         }
         public bool Delete(int id)
         {
             bool isDeleted = _iManager._zimmerRepository.Delete(id);
-            if(isDeleted)
+            if (isDeleted)
                 _iManager.save();
             return isDeleted;
         }

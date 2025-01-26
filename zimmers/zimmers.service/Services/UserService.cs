@@ -1,4 +1,6 @@
-﻿using zimmers.core.Entities;
+﻿using AutoMapper;
+using zimmers.core.DTOs;
+using zimmers.core.Entities;
 using zimmers.core.Interfaces;
 using zimmers.core.Interfaces.IRepository;
 using zimmers.core.Interfaces.IService;
@@ -7,18 +9,24 @@ namespace zimmers.service.Services
 {
     public class UserService : IUserService
     {
-        readonly IRepositoryManager _iManager;
-        public UserService(IRepositoryManager repositoryManager)
+        private readonly IRepositoryManager _iManager;
+        private readonly IMapper _mapper;
+        public UserService(IRepositoryManager repositoryManager, IMapper mapper)
         {
             _iManager = repositoryManager;
+            _mapper = mapper;
         }
-        public IEnumerable<User> Get()
+        public IEnumerable<UserDto> Get()
         {
-            return _iManager._userRepository.GetFull();
+            var users = _iManager._userRepository.Get();
+            var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
+            return usersDto;
         }
-        public User? GetById(int id)
+        public UserDto? GetById(int id)
         {
-            return _iManager._userRepository.GetById(id);
+            var user = _iManager._userRepository.GetById(id);
+            var usersDto = _mapper.Map<UserDto>(user);
+            return usersDto;
         }
         public bool IsValidTz(string tz)
         {
@@ -42,26 +50,33 @@ namespace zimmers.service.Services
                 return true;
             return false;
         }
-        public User Add(User user)
+        public UserDto Add(UserDto userDto)
         {
-            if (IsValidTz(user.Tz))
+            if (IsValidTz(userDto.Tz))
             {
+                var user = _mapper.Map<User>(userDto);
                 user = _iManager._userRepository.Add(user);
                 if (user != null)
+                {
                     _iManager.save();
+                    return userDto;
+                }
             }
-            return user;
+            return null;
         }
-        public User Update(int id, User user)
+        public UserDto Update(int id, UserDto userDto)
         {
-
-            if (IsValidTz(user.Tz))
+            if (IsValidTz(userDto.Tz))
             {
+                var user = _mapper.Map<User>(userDto);
                 user = _iManager._userRepository.Update(id, user);
                 if (user != null)
+                {
                     _iManager.save();
+                    return userDto;
+                }
             }
-            return user;
+            return null;
         }
         public bool Delete(int id)
         {

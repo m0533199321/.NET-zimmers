@@ -1,30 +1,42 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using zimmers.core.DTOs;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
 using zimmers.core.Interfaces.IRepository;
 using zimmers.core.Interfaces.IService;
+using zimmers.data.Repository;
 
 namespace zimmers.service.Services
 {
-    public class CleanerService:ICleanerService
+    public class CleanerService : ICleanerService
     {
-        readonly IRepositoryManager _iManager;
-        public CleanerService(IRepositoryManager repositoryManager)
+       private readonly IRepositoryManager _iManager;
+       private readonly IMapper _mapper;
+        public CleanerService(IRepositoryManager repositoryManager, IMapper mapper)
         {
             _iManager = repositoryManager;
+            _mapper = mapper;
         }
-        public IEnumerable<Cleaner> Get()
+
+        public IEnumerable<CleanerDto> Get()
         {
-            return _iManager._cleanerRepository.GetFull();
+            var cleaners = _iManager._cleanerRepository.Get();
+            var cleanersDto = _mapper.Map<IEnumerable<CleanerDto>>(cleaners);
+            return cleanersDto;
         }
-        public Cleaner? GetById(int id)
+
+        public CleanerDto? GetById(int id)
         {
-            return _iManager._cleanerRepository.GetById(id);
+            var cleaner = _iManager._cleanerRepository.GetById(id);
+            var cleanerDto = _mapper.Map<CleanerDto>(cleaner);
+            return cleanerDto;
         }
+
         public bool IsValidTz(string tz)
         {
             if (tz.Length != 9)
@@ -47,32 +59,42 @@ namespace zimmers.service.Services
                 return true;
             return false;
         }
-        public Cleaner Add(Cleaner cleaner)
-        {
-            if (IsValidTz(cleaner.Tz))
-            {
-                cleaner = _iManager._cleanerRepository.Add(cleaner);
-                if(cleaner !=null)
-                    _iManager.save();
-            }
-            return cleaner;
-        }
-        public Cleaner Update(int id, Cleaner cleaner)
-        {
 
-            if (IsValidTz(cleaner.Tz))
+        public CleanerDto Add(CleanerDto cleanerDto)
+        {
+            if (IsValidTz(cleanerDto.Tz))
             {
+                var cleaner = _mapper.Map<Cleaner>(cleanerDto);
+                cleaner = _iManager._cleanerRepository.Add(cleaner);
+                if (cleaner != null)
+                {
+                    _iManager.save();
+                    return cleanerDto;
+                }
+            }
+            return null;
+        }
+
+        public CleanerDto Update(int id, CleanerDto cleanerDto)
+        {
+            if (IsValidTz(cleanerDto.Tz))
+            {
+                var cleaner = _mapper.Map<Cleaner>(cleanerDto);
                 cleaner = _iManager._cleanerRepository.Update(id, cleaner);
                 if (cleaner != null)
+                {
                     _iManager.save();
+                    return cleanerDto;
+                }
             }
-            return cleaner;
+            return null;
         }
+
         public bool Delete(int id)
         {
             bool isDeleted = _iManager._cleanerRepository.Delete(id);
-            if(isDeleted)
-                _iManager._cleanerRepository.Delete(id);
+            if (isDeleted)
+                _iManager.save();
             return isDeleted;
         }
     }

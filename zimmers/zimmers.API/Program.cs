@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using zimmers.API;
 using zimmers.API.Controllers;
+using zimmers.core;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
 using zimmers.core.Interfaces.IRepository;
@@ -27,6 +29,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IZimmerRepository, ZimmerRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+builder.Services.AddAutoMapper(typeof(MappingProfile), typeof(MappgingPostProfile));
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;

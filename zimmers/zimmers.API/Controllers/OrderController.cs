@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using zimmers.API.PostModels;
+using zimmers.core.DTOs;
 using zimmers.core.Entities;
 using zimmers.core.Interfaces;
 using zimmers.core.Interfaces.IService;
@@ -12,45 +15,49 @@ namespace zimmers.API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _iService;
-        public OrderController(IOrderService iService)
+        private readonly IMapper _mapper;
+        public OrderController(IOrderService iService, IMapper mapper)
         {
             _iService = iService;
+            _mapper = mapper;
         }
         // GET: api/<OrderController>
         [HttpGet]
-        public IEnumerable<Order> Get()
+        public IEnumerable<OrderDto> Get()
         {
             return _iService.Get();
         }
 
         // GET api/<OrderController>/5
         [HttpGet("{id}")]
-        public ActionResult<Order> Get(int id)
+        public ActionResult<OrderDto> Get(int id)
         {
-            Order o = _iService.GetById(id);
-            if (o == null)
+            OrderDto oDto = _iService.GetById(id);
+            if (oDto == null)
                 return NotFound();
-            return o;
+            return oDto;
         }
 
         // POST api/<OrderController>
         [HttpPost]
-        public ActionResult<Order> Post([FromBody] Order order)
+        public ActionResult<OrderDto> Post([FromBody] OrderPostModel orderPostModel)
         {
-            Order o = _iService.Add(order);
-            if (o == null)
+            OrderDto orderDto = _mapper.Map<OrderDto>(orderPostModel);
+            orderDto = _iService.Add(orderDto);
+            if (orderDto == null)
                 return NotFound();
-            return o;
+            return orderDto;
         }
 
         // PUT api/<OrderController>/5
         [HttpPut("{id}")]
-        public ActionResult<Order> Put(int id, [FromBody] Order order)
+        public ActionResult<OrderDto> Put(int id, [FromBody] OrderPostModel orderPostModel)
         {
-            Order o = _iService.Update(id, order);
-            if (o == null)
+            OrderDto orderDto = _mapper.Map<OrderDto>(orderPostModel);
+            orderDto = _iService.Update(id, orderDto);
+            if (orderDto == null)
                 return NotFound();
-            return o;
+            return orderDto;
         }
 
         // DELETE api/<OrderController>/5
