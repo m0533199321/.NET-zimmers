@@ -38,16 +38,23 @@ namespace zimmers.service.Services
             var order = _mapper.Map<Order>(orderDto);
             order = _iManager._orderRepository.Add(order);
             if (order != null)
+            { 
                 _iManager.save();
-            return order != null ? orderDto : null;
+                return orderDto;
+            }
+            return null;
         }
         public OrderDto Update(int id, OrderDto orderDto)
         {
             var order = _mapper.Map<Order>(orderDto);
             order = _iManager._orderRepository.Update(id, order);
             if (order != null)
+            { 
                 _iManager.save();
-            return order != null ? orderDto : null;
+                orderDto = _mapper.Map<OrderDto>(order);
+                return orderDto;
+            }
+            return null;
         }
         public bool Delete(int id)
         {

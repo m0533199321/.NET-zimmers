@@ -51,6 +51,7 @@ namespace zimmers.service.Services
             if (zimmer != null)
             {
                 _iManager.save();
+                zimmerDto = _mapper.Map<ZimmerDto>(zimmer);
                 return zimmerDto;
             }
             return null;

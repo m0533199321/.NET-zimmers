@@ -77,8 +77,9 @@ namespace zimmers.service.Services
                 var owner = _mapper.Map<Owner>(ownerDto);
                 owner = _iManager._ownerRepository.Update(id, owner);
                 if (owner != null)
-                { 
+                {
                     _iManager.save();
+                    ownerDto = _mapper.Map<OwnerDto>(owner);
                     return ownerDto;
                 }
             }

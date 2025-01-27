@@ -84,6 +84,7 @@ namespace zimmers.service.Services
                 if (cleaner != null)
                 {
                     _iManager.save();
+                    cleanerDto = _mapper.Map<CleanerDto>(cleaner);
                     return cleanerDto;
                 }
             }

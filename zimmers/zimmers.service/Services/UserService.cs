@@ -73,6 +73,7 @@ namespace zimmers.service.Services
                 if (user != null)
                 {
                     _iManager.save();
+                    userDto = _mapper.Map<UserDto>(user);
                     return userDto;
                 }
             }
