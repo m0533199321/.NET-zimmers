@@ -20,23 +20,23 @@ namespace zimmers.data.Repository
         {
             _dataSet = dataContext.Set<T>();
         }
-        public IEnumerable<T> Get()
+        public async Task<IEnumerable<T>> GetAsync()
         {
-            return _dataSet.ToList();
+            return await _dataSet.ToListAsync();
         }
-        public T? GetById(int id)
+        public async Task<T?> GetByIdAsync(int id)
         {
-            return _dataSet.Find(id);
+            return await _dataSet.FindAsync(id);
         }
-        public T Add(T t)
+        public async Task<T> AddAsync(T t)
         {
-            _dataSet.Add(t);
+            await _dataSet.AddAsync(t);
             //_iManager.save();
             return t;
         }
-        public T Update(int id, T updatedEntity)
+        public async Task<T> UpdateAsync(int id, T updatedEntity)
         {
-            var existingEntity = _dataSet.Find(id);
+            var existingEntity = await _dataSet.FindAsync(id);
             if (existingEntity == null)
             {
                 return null;
@@ -57,9 +57,9 @@ namespace zimmers.data.Repository
             return existingEntity;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            T find = _dataSet.Find(id);
+            T find = await _dataSet.FindAsync(id);
             if (find != null)
             {
                 _dataSet.Remove(find);

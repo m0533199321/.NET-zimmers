@@ -9,10 +9,10 @@ namespace zimmers.core.Interfaces
 {
     public interface IRepository<T>
     {
-        public IEnumerable<T> Get();
-        public T? GetById(int id);
-        public T Add(T t);
-        public T Update(int id, T t);
-        public bool Delete(int id);
+        public Task<IEnumerable<T>> GetAsync();
+        public Task<T?> GetByIdAsync(int id);
+        public Task<T> AddAsync(T t);
+        public Task<T> UpdateAsync(int id, T t);
+        public Task<bool> DeleteAsync(int id);
     }
 }

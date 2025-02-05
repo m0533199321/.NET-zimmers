@@ -23,16 +23,16 @@ namespace zimmers.API.Controllers
         }
         // GET: api/<ZimmerController>
         [HttpGet]
-        public IEnumerable<ZimmerDto> Get()
+        public async Task<IEnumerable<ZimmerDto>> Get()
         {
-            return _iService.Get();
+            return await _iService.GetAsync();
         }
 
         // GET api/<ZimmerController>/5
         [HttpGet("{id}")]
-        public ActionResult<ZimmerDto> Get(int id)
+        public async Task<ActionResult<ZimmerDto>> Get(int id)
         {
-            ZimmerDto zimmerDto = _iService.GetById(id);
+            ZimmerDto zimmerDto = await _iService.GetByIdAsync(id);
             if (zimmerDto == null)
                 return NotFound();
             return zimmerDto;
@@ -40,10 +40,10 @@ namespace zimmers.API.Controllers
 
         // POST api/<ZimmerController>
         [HttpPost]
-        public ActionResult<ZimmerDto> Post([FromBody] ZimmerPostModel zimmerPostModel)
+        public async Task<ActionResult<ZimmerDto>> Post([FromBody] ZimmerPostModel zimmerPostModel)
         {
             ZimmerDto zimmerDto = _mapper.Map<ZimmerDto>(zimmerPostModel);
-            zimmerDto = _iService.Add(zimmerDto);
+            zimmerDto = await _iService.AddAsync(zimmerDto);
             if (zimmerDto == null)
                 return NotFound();
             return zimmerDto;
@@ -51,10 +51,10 @@ namespace zimmers.API.Controllers
 
         // PUT api/<ZimmerController>/5
         [HttpPut("{id}")]
-        public ActionResult<ZimmerDto> Put(int id, [FromBody] ZimmerPostModel zimmerPostModel)
+        public async Task<ActionResult<ZimmerDto>> Put(int id, [FromBody] ZimmerPostModel zimmerPostModel)
         {
             ZimmerDto zimmerDto = _mapper.Map<ZimmerDto>(zimmerPostModel);
-            zimmerDto = _iService.Update(id, zimmerDto);
+            zimmerDto = await _iService.UpdateAsync(id, zimmerDto);
             if (zimmerDto == null)
                 return NotFound();
             return zimmerDto;
@@ -62,9 +62,9 @@ namespace zimmers.API.Controllers
 
         // DELETE api/<ZimmerController>/5
         [HttpDelete("{id}")]
-        public ActionResult<bool> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
-            return _iService.Delete(id);
+            return await _iService.DeleteAsync(id);
         }
     }
 }

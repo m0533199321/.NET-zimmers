@@ -10,10 +10,10 @@ namespace zimmers.core.Interfaces.IService
 {
     public interface ICleanerService
     {
-        public IEnumerable<CleanerDto> Get();
-        public CleanerDto? GetById(int id);
-        public CleanerDto Add(CleanerDto c);
-        public CleanerDto Update(int id, CleanerDto c);
-        public bool Delete(int id);
+        public Task<IEnumerable<CleanerDto>> GetAsync();
+        public Task<CleanerDto?> GetByIdAsync(int id);
+        public Task<CleanerDto> AddAsync(CleanerDto c);
+        public Task<CleanerDto> UpdateAsync(int id, CleanerDto c);
+        public Task<bool> DeleteAsync(int id);
     }
 }

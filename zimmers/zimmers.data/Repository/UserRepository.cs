@@ -21,9 +21,9 @@ namespace zimmers.data.Repository
 
 
 
-        public IEnumerable<User> GetFull()
+        public async Task<IEnumerable<User>> GetFullAsync()
         {
-            return _dbset.Include(o=>o.List_orders);
+            return await _dbset.Include(o=>o.List_orders).ToListAsync();
         }
 
 

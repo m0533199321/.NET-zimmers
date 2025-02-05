@@ -23,16 +23,16 @@ namespace zimmers.API.Controllers
         }
         // GET: api/<OrderController>
         [HttpGet]
-        public IEnumerable<OrderDto> Get()
+        public async Task<IEnumerable<OrderDto>> Get()
         {
-            return _iService.Get();
+            return await _iService.GetAsync();
         }
 
         // GET api/<OrderController>/5
         [HttpGet("{id}")]
-        public ActionResult<OrderDto> Get(int id)
+        public async Task<ActionResult<OrderDto>> Get(int id)
         {
-            OrderDto oDto = _iService.GetById(id);
+            OrderDto oDto = await _iService.GetByIdAsync(id);
             if (oDto == null)
                 return NotFound();
             return oDto;
@@ -40,10 +40,10 @@ namespace zimmers.API.Controllers
 
         // POST api/<OrderController>
         [HttpPost]
-        public ActionResult<OrderDto> Post([FromBody] OrderPostModel orderPostModel)
+        public async Task<ActionResult<OrderDto>> Post([FromBody] OrderPostModel orderPostModel)
         {
             OrderDto orderDto = _mapper.Map<OrderDto>(orderPostModel);
-            orderDto = _iService.Add(orderDto);
+            orderDto = await _iService.AddAsync(orderDto);
             if (orderDto == null)
                 return NotFound();
             return orderDto;
@@ -51,10 +51,10 @@ namespace zimmers.API.Controllers
 
         // PUT api/<OrderController>/5
         [HttpPut("{id}")]
-        public ActionResult<OrderDto> Put(int id, [FromBody] OrderPostModel orderPostModel)
+        public async Task<ActionResult<OrderDto>> Put(int id, [FromBody] OrderPostModel orderPostModel)
         {
             OrderDto orderDto = _mapper.Map<OrderDto>(orderPostModel);
-            orderDto = _iService.Update(id, orderDto);
+            orderDto = await _iService.UpdateAsync(id, orderDto);
             if (orderDto == null)
                 return NotFound();
             return orderDto;
@@ -62,9 +62,9 @@ namespace zimmers.API.Controllers
 
         // DELETE api/<OrderController>/5
         [HttpDelete("{id}")]
-        public ActionResult<bool> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
-            return _iService.Delete(id);
+            return await _iService.DeleteAsync(id);
         }
     }
 }

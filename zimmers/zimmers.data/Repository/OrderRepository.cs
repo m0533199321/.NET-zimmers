@@ -20,9 +20,9 @@ namespace zimmers.data.Repository
         }
 
 
-        public IEnumerable<Order> GetFull()
+        public async Task<IEnumerable<Order>> GetFullAsync()
         {
-            return _dbset.Include(u=> u.User).Include(z=>z.Zimmer);
+            return await _dbset.Include(u=> u.User).Include(z=>z.Zimmer).ToListAsync();
         }
 
 

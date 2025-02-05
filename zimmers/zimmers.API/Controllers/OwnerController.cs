@@ -23,16 +23,16 @@ namespace zimmers.API.Controllers
         }
         // GET: api/<OwnerController>
         [HttpGet]
-        public IEnumerable<OwnerDto> Get()
+        public async Task<IEnumerable<OwnerDto>> Get()
         {
-            return _iService.Get();
+            return await _iService.GetAsync();
         }
 
         // GET api/<OwnerController>/5
         [HttpGet("{id}")]
-        public ActionResult<OwnerDto> Get(int id)
+        public async Task<ActionResult<OwnerDto>> Get(int id)
         {
-            OwnerDto ownerDto = _iService.GetById(id);
+            OwnerDto ownerDto = await _iService.GetByIdAsync(id);
             if (ownerDto == null)
                 return NotFound();
             return ownerDto;
@@ -40,10 +40,10 @@ namespace zimmers.API.Controllers
 
         // POST api/<OwnerController>
         [HttpPost]
-        public ActionResult<OwnerDto> Post([FromBody] OwnerPostModel ownerPostModel)
+        public async Task<ActionResult<OwnerDto>> Post([FromBody] OwnerPostModel ownerPostModel)
         {
             OwnerDto ownerDto = _mapper.Map<OwnerDto>(ownerPostModel);
-            ownerDto = _iService.Add(ownerDto);
+            ownerDto = await _iService.AddAsync(ownerDto);
             if (ownerDto == null)
                 return NotFound();
             return ownerDto;
@@ -51,10 +51,10 @@ namespace zimmers.API.Controllers
 
         // PUT api/<OwnerController>/5
         [HttpPut("{id}")]
-        public ActionResult<OwnerDto> Put(int id, [FromBody] OwnerPostModel ownerPostModel)
+        public async Task<ActionResult<OwnerDto>> Put(int id, [FromBody] OwnerPostModel ownerPostModel)
         {
             OwnerDto ownerDto = _mapper.Map<OwnerDto>(ownerPostModel);
-            ownerDto = _iService.Update(id, ownerDto);
+            ownerDto = await _iService.UpdateAsync(id, ownerDto);
             if (ownerDto == null)
                 return NotFound();
             return ownerDto;
@@ -62,9 +62,9 @@ namespace zimmers.API.Controllers
 
         // DELETE api/<OwnerController>/5
         [HttpDelete("{id}")]
-        public ActionResult<bool> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
-            return _iService.Delete(id);
+            return await _iService.DeleteAsync(id);
         }
     }
 }

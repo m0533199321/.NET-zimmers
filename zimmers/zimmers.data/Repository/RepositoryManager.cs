@@ -32,9 +32,9 @@ namespace zimmers.data.Repository
             _userRepository = userRepository;
             _zimmerRepository = zimmerRepository;
         }
-        public void save()
+        public async Task saveAsync()
         {
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
     }
     //public class RepositoryManager : IRepositoryManager

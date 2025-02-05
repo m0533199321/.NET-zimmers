@@ -23,16 +23,16 @@ namespace zimmers.service.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<CleanerDto> Get()
+        public async Task<IEnumerable<CleanerDto>> GetAsync()
         {
-            var cleaners = _iManager._cleanerRepository.Get();
+            var cleaners = await _iManager._cleanerRepository.GetAsync();
             var cleanersDto = _mapper.Map<IEnumerable<CleanerDto>>(cleaners);
             return cleanersDto;
         }
 
-        public CleanerDto? GetById(int id)
+        public async Task<CleanerDto?> GetByIdAsync(int id)
         {
-            var cleaner = _iManager._cleanerRepository.GetById(id);
+            var cleaner = await _iManager._cleanerRepository.GetByIdAsync(id);
             var cleanerDto = _mapper.Map<CleanerDto>(cleaner);
             return cleanerDto;
         }
@@ -60,30 +60,30 @@ namespace zimmers.service.Services
             return false;
         }
 
-        public CleanerDto Add(CleanerDto cleanerDto)
+        public async Task<CleanerDto> AddAsync(CleanerDto cleanerDto)
         {
             if (IsValidTz(cleanerDto.Tz))
             {
                 var cleaner = _mapper.Map<Cleaner>(cleanerDto);
-                cleaner = _iManager._cleanerRepository.Add(cleaner);
+                cleaner = await _iManager._cleanerRepository.AddAsync(cleaner);
                 if (cleaner != null)
                 {
-                    _iManager.save();
+                    await _iManager.saveAsync();
                     return cleanerDto;
                 }
             }
             return null;
         }
 
-        public CleanerDto Update(int id, CleanerDto cleanerDto)
+        public async Task<CleanerDto> UpdateAsync(int id, CleanerDto cleanerDto)
         {
             if (IsValidTz(cleanerDto.Tz))
             {
                 var cleaner = _mapper.Map<Cleaner>(cleanerDto);
-                cleaner = _iManager._cleanerRepository.Update(id, cleaner);
+                cleaner = await _iManager._cleanerRepository.UpdateAsync(id, cleaner);
                 if (cleaner != null)
                 {
-                    _iManager.save();
+                    await _iManager.saveAsync();
                     cleanerDto = _mapper.Map<CleanerDto>(cleaner);
                     return cleanerDto;
                 }
@@ -91,11 +91,11 @@ namespace zimmers.service.Services
             return null;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            bool isDeleted = _iManager._cleanerRepository.Delete(id);
+            bool isDeleted = await _iManager._cleanerRepository.DeleteAsync(id);
             if (isDeleted)
-                _iManager.save();
+                await _iManager.saveAsync();
             return isDeleted;
         }
     }

@@ -21,15 +21,15 @@ namespace zimmers.service.Services
             _iManager = repositoryManager;
             _mapper = mapper;
         }
-        public IEnumerable<OwnerDto> Get()
+        public async Task<IEnumerable<OwnerDto>> GetAsync()
         {
-            var owners = _iManager._ownerRepository.Get();
+            var owners = await _iManager._ownerRepository.GetAsync();
             var ownersDto = _mapper.Map<IEnumerable<OwnerDto>>(owners);
             return ownersDto;
         }
-        public OwnerDto? GetById(int id)
+        public async Task<OwnerDto?> GetByIdAsync(int id)
         {
-            var owner = _iManager._ownerRepository.GetById(id);
+            var owner = await _iManager._ownerRepository.GetByIdAsync(id);
             var ownerDto = _mapper.Map<OwnerDto>(owner);
             return ownerDto;
         }
@@ -55,41 +55,41 @@ namespace zimmers.service.Services
                 return true;
             return false;
         }
-        public OwnerDto Add(OwnerDto ownerDto)
+        public async Task<OwnerDto> AddAsync(OwnerDto ownerDto)
         {
             if (IsValidTz(ownerDto.Tz))
             {
                 var owner = _mapper.Map<Owner>(ownerDto);
-                owner = _iManager._ownerRepository.Add(owner);
+                owner = await _iManager._ownerRepository.AddAsync(owner);
                 if (owner != null)
                 {
-                    _iManager.save();
+                    await _iManager.saveAsync();
                     return ownerDto;
                 }
             }
             return null;
         }
-        public OwnerDto Update(int id, OwnerDto ownerDto)
+        public async Task<OwnerDto> UpdateAsync(int id, OwnerDto ownerDto)
         {
 
             if (IsValidTz(ownerDto.Tz))
             {
                 var owner = _mapper.Map<Owner>(ownerDto);
-                owner = _iManager._ownerRepository.Update(id, owner);
+                owner = await _iManager._ownerRepository.UpdateAsync(id, owner);
                 if (owner != null)
                 {
-                    _iManager.save();
+                    await _iManager.saveAsync();
                     ownerDto = _mapper.Map<OwnerDto>(owner);
                     return ownerDto;
                 }
             }
             return null;
         }
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            bool isDeleted = _iManager._ownerRepository.Delete(id);
+            bool isDeleted = await _iManager._ownerRepository.DeleteAsync(id);
             if (isDeleted)
-                _iManager.save();
+                await _iManager.saveAsync();
             return isDeleted;
         }
     }

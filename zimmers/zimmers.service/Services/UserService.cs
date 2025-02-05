@@ -16,15 +16,15 @@ namespace zimmers.service.Services
             _iManager = repositoryManager;
             _mapper = mapper;
         }
-        public IEnumerable<UserDto> Get()
+        public async Task<IEnumerable<UserDto>> GetAsync()
         {
-            var users = _iManager._userRepository.Get();
+            var users = await _iManager._userRepository.GetAsync();
             var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
             return usersDto;
         }
-        public UserDto? GetById(int id)
+        public async Task<UserDto?> GetByIdAsync(int id)
         {
-            var user = _iManager._userRepository.GetById(id);
+            var user = await _iManager._userRepository.GetByIdAsync(id);
             var usersDto = _mapper.Map<UserDto>(user);
             return usersDto;
         }
@@ -50,40 +50,40 @@ namespace zimmers.service.Services
                 return true;
             return false;
         }
-        public UserDto Add(UserDto userDto)
+        public async Task<UserDto> AddAsync(UserDto userDto)
         {
             if (IsValidTz(userDto.Tz))
             {
                 var user = _mapper.Map<User>(userDto);
-                user = _iManager._userRepository.Add(user);
+                user = await _iManager._userRepository.AddAsync(user);
                 if (user != null)
                 {
-                    _iManager.save();
+                    await _iManager.saveAsync();
                     return userDto;
                 }
             }
             return null;
         }
-        public UserDto Update(int id, UserDto userDto)
+        public async Task<UserDto> UpdateAsync(int id, UserDto userDto)
         {
             if (IsValidTz(userDto.Tz))
             {
                 var user = _mapper.Map<User>(userDto);
-                user = _iManager._userRepository.Update(id, user);
+                user = await _iManager._userRepository.UpdateAsync(id, user);
                 if (user != null)
                 {
-                    _iManager.save();
+                    await _iManager.saveAsync();
                     userDto = _mapper.Map<UserDto>(user);
                     return userDto;
                 }
             }
             return null;
         }
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            bool isDeleted = _iManager._userRepository.Delete(id);
+            bool isDeleted = await _iManager._userRepository.DeleteAsync(id);
             if (isDeleted)
-                _iManager.save();
+                await _iManager.saveAsync();
             return isDeleted;
         }
     }

@@ -9,6 +9,6 @@ namespace zimmers.core.Interfaces.IRepository
 {
     public interface IZimmerRepository:IRepository<Zimmer>
     {
-        public IEnumerable<Zimmer> GetFull();
+        public Task<IEnumerable<Zimmer>> GetFullAsync();
     }
 }

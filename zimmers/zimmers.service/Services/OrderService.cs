@@ -21,46 +21,46 @@ namespace zimmers.service.Services
             _iManager = repositoryManager;
             _mapper = mapper;
         }
-        public IEnumerable<OrderDto> Get()
+        public async Task<IEnumerable<OrderDto>> GetAsync()
         {
-            var orders = _iManager._orderRepository.Get();
+            var orders = await _iManager._orderRepository.GetAsync();
             var ordersDto = _mapper.Map<IEnumerable<OrderDto>>(orders);
             return ordersDto;
         }
-        public OrderDto? GetById(int id)
+        public async Task<OrderDto?> GetByIdAsync(int id)
         {
-            var order = _iManager._orderRepository.GetById(id);
+            var order = await _iManager._orderRepository.GetByIdAsync(id);
             var orderDto = _mapper.Map<OrderDto>(order);
             return orderDto;
         }
-        public OrderDto Add(OrderDto orderDto)
+        public async Task<OrderDto> AddAsync(OrderDto orderDto)
         {
             var order = _mapper.Map<Order>(orderDto);
-            order = _iManager._orderRepository.Add(order);
+            order = await _iManager._orderRepository.AddAsync(order);
             if (order != null)
             { 
-                _iManager.save();
+                await _iManager.saveAsync();
                 return orderDto;
             }
             return null;
         }
-        public OrderDto Update(int id, OrderDto orderDto)
+        public async Task<OrderDto> UpdateAsync(int id, OrderDto orderDto)
         {
             var order = _mapper.Map<Order>(orderDto);
-            order = _iManager._orderRepository.Update(id, order);
+            order = await _iManager._orderRepository.UpdateAsync(id, order);
             if (order != null)
             { 
-                _iManager.save();
+                await _iManager.saveAsync();
                 orderDto = _mapper.Map<OrderDto>(order);
                 return orderDto;
             }
             return null;
         }
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            bool isDeleted = _iManager._orderRepository.Delete(id);
+            bool isDeleted = await _iManager._orderRepository.DeleteAsync(id);
             if (isDeleted)
-                _iManager.save();
+                await _iManager.saveAsync();
             return isDeleted;
         }
     }

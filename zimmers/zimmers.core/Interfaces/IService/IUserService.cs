@@ -10,10 +10,10 @@ namespace zimmers.core.Interfaces
 {
     public interface IUserService
     {
-        public IEnumerable<UserDto> Get();
-        public UserDto? GetById(int id);
-        public UserDto Add(UserDto u);
-        public UserDto Update(int id, UserDto u);
-        public bool Delete(int id);
+        public Task<IEnumerable<UserDto>> GetAsync();
+        public Task<UserDto?> GetByIdAsync(int id);
+        public Task<UserDto> AddAsync(UserDto u);
+        public Task<UserDto> UpdateAsync(int id, UserDto u);
+        public Task<bool> DeleteAsync(int id);
     }
 }

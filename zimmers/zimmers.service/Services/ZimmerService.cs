@@ -21,46 +21,46 @@ namespace zimmers.service.Services
             _iManager = repositoryManager;
             _mapper = mapper;
         }
-        public IEnumerable<ZimmerDto> Get()
+        public async Task<IEnumerable<ZimmerDto>> GetAsync()
         {
-            var zimmers = _iManager._zimmerRepository.Get();
+            var zimmers = await _iManager._zimmerRepository.GetAsync();
             var zimmersDto = _mapper.Map<IEnumerable<ZimmerDto>>(zimmers);
             return zimmersDto;
         }
-        public ZimmerDto? GetById(int id)
+        public async Task<ZimmerDto?> GetByIdAsync(int id)
         {
-            var zimmer = _iManager._zimmerRepository.GetById(id);
+            var zimmer = await _iManager._zimmerRepository.GetByIdAsync(id);
             var zimmerDto = _mapper.Map<ZimmerDto>(zimmer);
             return zimmerDto;
         }
-        public ZimmerDto Add(ZimmerDto zimmerDto)
+        public async Task<ZimmerDto> AddAsync(ZimmerDto zimmerDto)
         {
             var zimmer = _mapper.Map<Zimmer>(zimmerDto);
-            zimmer = _iManager._zimmerRepository.Add(zimmer);
+            zimmer = await _iManager._zimmerRepository.AddAsync(zimmer);
             if (zimmer != null)
             {
-                _iManager.save();
+                await _iManager.saveAsync();
                 return zimmerDto;
             }
             return null;
         }
-        public ZimmerDto Update(int id, ZimmerDto zimmerDto)
+        public async Task<ZimmerDto> UpdateAsync(int id, ZimmerDto zimmerDto)
         {
             var zimmer = _mapper.Map<Zimmer>(zimmerDto);
-            zimmer = _iManager._zimmerRepository.Update(id, zimmer);
+            zimmer = await _iManager._zimmerRepository.UpdateAsync(id, zimmer);
             if (zimmer != null)
             {
-                _iManager.save();
+                await _iManager.saveAsync();
                 zimmerDto = _mapper.Map<ZimmerDto>(zimmer);
                 return zimmerDto;
             }
             return null;
         }
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            bool isDeleted = _iManager._zimmerRepository.Delete(id);
+            bool isDeleted = await _iManager._zimmerRepository.DeleteAsync(id);
             if (isDeleted)
-                _iManager.save();
+                await _iManager.saveAsync();
             return isDeleted;
         }
     }

@@ -14,6 +14,6 @@ namespace zimmers.core.Interfaces
         IOwnerRepository _ownerRepository { get; set; }
         IUserRepository _userRepository { get; set; }
         IZimmerRepository _zimmerRepository { get; set; }
-        void save();
+        Task saveAsync();
     }
 }

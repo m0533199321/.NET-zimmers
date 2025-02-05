@@ -18,9 +18,9 @@ namespace zimmers.data.Repository
         {
             _dbset = dataContext.Set<Zimmer>();
         }
-        public IEnumerable<Zimmer> GetFull()
+        public async Task<IEnumerable<Zimmer>> GetFullAsync()
         {
-            return _dbset.Include(c=>c.cleaner).Include(o=>o.owner).Include(o=>o.List_orders);
+            return await _dbset.Include(c=>c.cleaner).Include(o=>o.owner).Include(o=>o.List_orders).ToListAsync();
         }
 
 

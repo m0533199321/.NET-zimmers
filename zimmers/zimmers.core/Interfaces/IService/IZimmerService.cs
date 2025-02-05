@@ -10,10 +10,10 @@ namespace zimmers.core.Interfaces
 {
     public interface IZimmerService
     {
-        public IEnumerable<ZimmerDto> Get();
-        public ZimmerDto? GetById(int id);
-        public ZimmerDto Add(ZimmerDto z);
-        public ZimmerDto Update(int id, ZimmerDto z);
-        public bool Delete(int id);
+        public Task<IEnumerable<ZimmerDto>> GetAsync();
+        public Task<ZimmerDto?> GetByIdAsync(int id);
+        public Task<ZimmerDto> AddAsync(ZimmerDto z);
+        public Task<ZimmerDto> UpdateAsync(int id, ZimmerDto z);
+        public Task<bool> DeleteAsync(int id);
     }
 }

@@ -10,10 +10,10 @@ namespace zimmers.core.Interfaces
 {
     public interface IOwnerService
     {
-        public IEnumerable<OwnerDto> Get();
-        public OwnerDto? GetById(int id);
-        public OwnerDto Add(OwnerDto o);
-        public OwnerDto Update(int id, OwnerDto o);
-        public bool Delete(int id);
+        public Task<IEnumerable<OwnerDto>> GetAsync();
+        public Task<OwnerDto?> GetByIdAsync(int id);
+        public Task<OwnerDto> AddAsync(OwnerDto o);
+        public Task<OwnerDto> UpdateAsync(int id, OwnerDto o);
+        public Task<bool> DeleteAsync(int id);
     }
 }

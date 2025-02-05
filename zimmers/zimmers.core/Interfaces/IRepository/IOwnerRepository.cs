@@ -9,6 +9,6 @@ namespace zimmers.core.Interfaces.IRepository
 {
     public interface IOwnerRepository: IRepository<Owner>
     {
-        public IEnumerable<Owner> GetFull();
+        public Task<IEnumerable<Owner>> GetFullAsync();
     }
 }

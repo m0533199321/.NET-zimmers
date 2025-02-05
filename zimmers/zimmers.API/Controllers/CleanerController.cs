@@ -22,16 +22,16 @@ namespace zimmers.API.Controllers
         }
         // GET: api/<CleanerController>
         [HttpGet]
-        public IEnumerable<CleanerDto> Get()
+        public async Task<IEnumerable<CleanerDto>> Get()
         {
-            return _iService.Get();
+            return await _iService.GetAsync();
         }
 
         // GET api/<CleanerController>/5
         [HttpGet("{id}")]
-        public ActionResult<CleanerDto> Get(int id)
+        public async Task<ActionResult<CleanerDto>> Get(int id)
         {
-            CleanerDto cleanerDto = _iService.GetById(id);
+            CleanerDto cleanerDto = await _iService.GetByIdAsync(id);
             if (cleanerDto == null)
                 return NotFound();
             return cleanerDto;
@@ -39,10 +39,10 @@ namespace zimmers.API.Controllers
 
         // POST api/<CleanerController>
         [HttpPost]
-        public ActionResult<CleanerDto> Post([FromBody] CleanerPostModel cleanerPostModel)
+        public async Task<ActionResult<CleanerDto>> Post([FromBody] CleanerPostModel cleanerPostModel)
         {
             CleanerDto cleanerDto = _mapper.Map<CleanerDto>(cleanerPostModel);
-            cleanerDto = _iService.Add(cleanerDto);
+            cleanerDto = await _iService.AddAsync(cleanerDto);
             if (cleanerDto == null)
                 return NotFound();
             return cleanerDto;
@@ -50,10 +50,10 @@ namespace zimmers.API.Controllers
 
         // PUT api/<CleanerController>/5
         [HttpPut("{id}")]
-        public ActionResult<CleanerDto> Put(int id, [FromBody] CleanerPostModel cleanerPostModel)
+        public async Task<ActionResult<CleanerDto>> Put(int id, [FromBody] CleanerPostModel cleanerPostModel)
         {
             CleanerDto cleanerDto = _mapper.Map<CleanerDto>(cleanerPostModel);
-            cleanerDto = _iService.Update(id, cleanerDto);
+            cleanerDto = await _iService.UpdateAsync(id, cleanerDto);
             if (cleanerDto == null)
                 return BadRequest();
             return cleanerDto;
@@ -61,9 +61,9 @@ namespace zimmers.API.Controllers
 
         // DELETE api/<CleanerController>/5
         [HttpDelete("{id}")]
-        public ActionResult<bool> Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
-            return _iService.Delete(id);
+            return await _iService.DeleteAsync(id);
         }
     }
 }
